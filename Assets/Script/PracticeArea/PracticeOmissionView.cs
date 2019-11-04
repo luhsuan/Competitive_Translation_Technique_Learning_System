@@ -445,7 +445,7 @@ public class PracticeOmissionView : MonoBehaviour {
         UIManager.Instance.TogglePanel("P_ResultUI",false);
         
        string rank_content="排名 玩家  最高分\n";
-        if(rank_content == "玩家  最高分\n")
+        if(rank_content == "排名 玩家  最高分\n")
         {
             UI_ShowMes.GetComponentInChildren<Text>().text = "排名中...";
         }
