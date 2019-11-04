@@ -450,11 +450,11 @@ public class PracticeAmplificationView : MonoBehaviour {
         UIManager.Instance.TogglePanel("P_ResultUI",false);
 
         string rank_content="排名 玩家  最高分\n";
-        if(rank_content == "玩家  最高分\n")
+        if(rank_content == "排名 玩家  最高分\n")
         {
             UI_ShowMes.GetComponentInChildren<Text>().text = "排名中...";
         }
-
+        // yield return new WaitForSeconds(2f);
         // ############紀錄練習成績######################
         if( ManageLevel_P.levelDifficulty == "easy")//更新練習主題與難意度
         {
