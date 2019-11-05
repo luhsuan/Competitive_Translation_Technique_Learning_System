@@ -207,7 +207,7 @@ public class PracticeConversionView : MonoBehaviour {
     void showPracticeOption(int correctOptID,int quesID)
     {
        // randomOption = pm.randomOption(4, correctOptID);
-        correctOption = UnityEngine.Random.Range(0, btn_option.Length-1);//隨機選擇正確答案的位置
+        correctOption = UnityEngine.Random.Range(0, btn_option.Length);//隨機選擇正確答案的位置
         // Debug.Log("正確答案:"+correctOption+","+quesID);
         for (int i = 0, randomOptionIndex = 1 ; i < btn_option.Length; i++)
         {
