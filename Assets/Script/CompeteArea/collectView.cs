@@ -14,14 +14,15 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
     public AudioSource vol_pronun;
     PhotonPlayer[] player;
     AudioSource ClickBtn,ChooseCard;
-    Button btn_gamestart, btn_Wexit,btn_hintLA,btn_hintST;
+    Button btn_gamestart, btn_Wexit,btn_hintTS,btn_hintEO;
     bool timerflag = false;
+    bool timestop = false;
 
     int currentTime;
     int max_correctNum, C_correctNum, correctNum, wrongNum;
     int cardCount;//卡牌數量
-    static int c_hintLA_count, c_hintST_count;//當前使用提示的次數
-    static int hintLA_count, hintST_count;//使用提示的最大次數
+    static int c_hintTS_count, c_hintEO_count;//當前使用提示的次數
+    static int hintTS_count, hintEO_count;//使用提示的最大次數
     string[] s_option;//該回合的選項
     string[] quesInfo, optionInfo;
     DateTime TurnStartTime;
@@ -60,8 +61,8 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
         C_correctNum = -1;//當前連續答對題數
         max_correctNum = -1;//最大連續答對數
         correctNum = 0;//累計正確題數
-        hintLA_count = 10000; hintST_count = 10000;
-        c_hintLA_count = 0; c_hintST_count = 0;
+        hintTS_count = 3; hintEO_count = 3;
+        c_hintTS_count = 0; c_hintEO_count = 0;
         wrongNum = 0;
         IsShowingResults = false;
         RefreshConnectUI();
@@ -84,11 +85,12 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
         {
             this.ConnectUiView.SetActive(true);
         }
-        if (timerflag)
+        if (timerflag )
         {
             currentTime = (int)turnManager.RemainingSecondsInTurn;
             this.TimeText.text = currentTime.ToString();//顯示倒數秒數
         }
+       
     }
 
 
@@ -170,8 +172,8 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
             if (player[i].NickName == local.NickName) localRank = i + 1;
             ResultUIView.GetComponentsInChildren<Text>()[0].text += player[i].NickName + "　分數:" + player[i].GetScore().ToString("D2") + "\n\n";
         }
-        ResultUIView.GetComponentsInChildren<Text>()[1].text = c_hintLA_count.ToString();
-        ResultUIView.GetComponentsInChildren<Text>()[2].text = c_hintST_count.ToString();
+        ResultUIView.GetComponentsInChildren<Text>()[1].text = c_hintTS_count.ToString();
+        ResultUIView.GetComponentsInChildren<Text>()[2].text = c_hintEO_count.ToString();
         Button btn_learn = ResultUIView.GetComponentsInChildren<Button>()[0];
         Button btn_play = ResultUIView.GetComponentsInChildren<Button>()[1];
         Button btn_exit = ResultUIView.GetComponentsInChildren<Button>()[2];
@@ -182,7 +184,7 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
         achievementState[1] = xmlprocess.setCompeteCount();//對戰次數
         if (xmlprocess.setCompeteCorrectRecord(correctNum, wrongNum) != null) achievementState[2] = xmlprocess.setCompeteCorrectRecord(correctNum, wrongNum);//累積答對
         if (xmlprocess.setCompeteMaxCorrectRecord(max_correctNum) != null) achievementState[3] = xmlprocess.setCompeteMaxCorrectRecord(max_correctNum);//連續答對
-        string[] s_state = xmlprocess.setCompeteScoreRecord(c_hintLA_count, c_hintST_count, local.GetScore(), localRank);//提示與分數排名
+        string[] s_state = xmlprocess.setCompeteScoreRecord(c_hintTS_count, c_hintEO_count, local.GetScore(), localRank);//提示與分數排名
         if (s_state[0] != null) achievementState[4] = s_state[0];//有進步
         if (s_state[1] != null) achievementState[5] = s_state[1];//有刷新分數
         if (s_state[2] != null) achievementState[6] = s_state[2];//有進榜
@@ -276,7 +278,7 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
    
         ShowQuestion();
      
-        int ans_pos = UnityEngine.Random.Range(0, cardCount-1);
+        int ans_pos = UnityEngine.Random.Range(0, cardCount);
         if (quesInfo != null && quesInfo.Length > 0)
         {
 
@@ -292,12 +294,12 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
 
                 if (i == ans_pos)//如果當前位置為答案位置 
                 {
-                    cardObj.GetComponentInChildren<Text>().text = quesInfo[1];
-                    cardObj.name = quesInfo[1];
+                    cardObj.GetComponentInChildren<Text>().text = quesInfo[2];
+                    cardObj.name = quesInfo[2];
                 }
                 else //不是答案的其餘選項
                 {
-                    if( quesInfo[1] == optionInfo[0] )//當答案與選項相同時 顯示最後一個選項
+                    if( quesInfo[2] == optionInfo[0] )//當答案與選項相同時 顯示最後一個選項
                     {
                         optionInfo = s_option[6].Split(',');
                         cardObj.GetComponentInChildren<Text>().text = optionInfo[0];
@@ -326,10 +328,10 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
         int ans_pos = UnityEngine.Random.Range(0, cardCount-1);
         if (quesInfo != null && quesInfo.Length > 0)
         {
-            int j=2;
+            int j=3;
             if(ManageLevel_C.level == "Conversion" || ManageLevel_C.level == "Integrate")
             {
-                j=3;
+                j=4;
             }
             for (int i = 0 ; i < cardCount; i++)
             {
@@ -338,8 +340,8 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
 
                 if (i == ans_pos)//如果當前位置為答案位置 
                 {
-                    cardObj.GetComponentInChildren<Text>().text = quesInfo[1];
-                    cardObj.name = quesInfo[1];
+                    cardObj.GetComponentInChildren<Text>().text = quesInfo[2];
+                    cardObj.name = quesInfo[2];
                 }
                 else //不是答案的其餘選項
                 {
@@ -412,7 +414,7 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
             this.result = ResultType.None;
         }
 
-        if (this.localSelection == quesInfo[1])
+        if (this.localSelection == quesInfo[2])
         {
            this.result = ResultType.CorrectAns;
             Debug.Log("Correct answer!");
@@ -439,13 +441,13 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
         PhotonPlayer local = PhotonNetwork.player;
         int spendTime = DateDiff(this.localTime, TurnStartTime);
         int restTime = (int)this.turnManager.TurnDuration - spendTime;//剩餘時間
-        int _hintLA = xmlprocess.getRoundHintcount("hint_LA");//當回合使用提示時間暫停5秒
-        int _hintST = xmlprocess.getRoundHintcount("hint_ST");//當回合使用提示排除一半選項
+        int _hintTS = xmlprocess.getRoundHintcount("hint_TS");//當回合使用提示時間暫停5秒
+        int _hintEO = xmlprocess.getRoundHintcount("hint_EO");//當回合使用提示排除一半選項
         string resultState = "";
         switch (this.result)
         {
             case ResultType.CorrectAns:
-                PhotonNetwork.player.AddScore((int)(restTime * 0.8 + local.GetScore() * 0.2 - (_hintLA * 1) - (_hintST * 1.5) + (PhotonNetwork.room.PlayerCount * 0.25)));//剩餘時間*0.8+原本分數*0.2-使用提示+房間人數*0.5
+                PhotonNetwork.player.AddScore((int)(restTime * 0.8 + local.GetScore() * 0.2 - (_hintTS * 1) - (_hintEO * 1.5) + (PhotonNetwork.room.PlayerCount * 0.25)));//剩餘時間*0.8+原本分數*0.2-使用提示+房間人數*0.5
                 resultState = "correct";
                 break;
             case ResultType.None:
@@ -525,7 +527,7 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
                 break;
             case ResultType.WrongAns:
                 imgResult.sprite = Resources.Load("Image/wrong", typeof(Sprite)) as Sprite;
-                textResult.text = "正確答案:"+ quesInfo[1];
+                textResult.text = "正確答案:"+ quesInfo[2];
 
                 break;
         }
@@ -595,11 +597,11 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
     void InitialGameUI() {
         //初次進入進行遊戲畫面初始化
 
-        btn_hintLA = this.GameStartUI.GetComponentsInChildren<Button>()[0];
-        btn_hintST = this.GameStartUI.GetComponentsInChildren<Button>()[1];
+        // btn_hintTS = this.GameStartUI.GetComponentsInChildren<Button>()[0];
+        btn_hintEO = this.GameStartUI.GetComponentsInChildren<Button>()[0];
         //提示按鈕監聽事件
-        btn_hintLA.onClick.AddListener(ListenAgain);
-        btn_hintST.onClick.AddListener(ShowQuestion);
+        // btn_hintTS.onClick.AddListener(TimeStop);
+        btn_hintEO.onClick.AddListener(ExcludeOption);
 
         for (int i = 0; i < PhotonNetwork.room.PlayerCount; i++)
         {
@@ -680,47 +682,54 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
         }
     }
 
-    void ListenAgain() {
-        ClickBtn.Play();
-        vol_pronun.Play();
-        Debug.Log("funtion:"+c_hintLA_count);
-        c_hintLA_count = c_hintLA_count+1;
-        //btn_hintLA.GetComponentsInChildren<Text>()[0].text = c_hintLA_count + "次";
-        xmlprocess.setRoundHintcount("hint_LA", c_hintLA_count);
+   
 
-        if (c_hintLA_count >= hintLA_count)
+    void ExcludeOption() {
+        ClickBtn.Play();
+
+        for(int i=0 ; i < 2 ; i++)
         {
-            btn_hintLA.interactable = false;
-            btn_hintLA.image.color = Color.gray;
+            int rand = UnityEngine.Random.Range(1, 5);
+            while( GetComponentsInChildren<Button>()[rand].name == quesInfo[2] || GetComponentsInChildren<Button>()[rand].interactable == false )
+            {
+                rand = UnityEngine.Random.Range(1, 5);
+                 // Debug.Log("迴圈選項名字: "+rand);
+            }
+            GetComponentsInChildren<Button>()[rand].interactable = false;
+            // Debug.Log("選項名字: "+rand);
+        }
+        
+        // cardObj.gameObject.SetActive(false);
+
+        c_hintEO_count = c_hintEO_count+1;
+        btn_hintEO.GetComponentsInChildren<Text>()[0].text = c_hintEO_count + "次";
+        xmlprocess.setRoundHintcount("hint_EO", c_hintEO_count);
+        if (c_hintEO_count >= hintEO_count)
+        {
+            btn_hintEO.interactable = false;
         }
     }
 
     void ShowQuestion() {
-        ClickBtn.Play();
+        // ClickBtn.Play();
         if( ManageLevel_C.level == "Means" )
         {
             
-            quesInfo[0] = quesInfo[0].Replace('/', ',');//英文題目
-            this.question.text = quesInfo[0];
+            quesInfo[1] = quesInfo[1].Replace('/', ',');//英文題目
+            this.question.text = quesInfo[1];
 
         }
         else
         {
             
-            quesInfo[2] = quesInfo[2].Replace('/', ',');//英文題目
-            this.question.text = quesInfo[2];
-            quesInfo[0] = quesInfo[0].Replace('/', ',');//中文題目
-            this.question_ch.text = quesInfo[0];
+            quesInfo[3] = quesInfo[3].Replace('/', ',');//英文題目
+            this.question.text = quesInfo[3];
+            quesInfo[1] = quesInfo[1].Replace('/', ',');//中文題目
+            this.question_ch.text = quesInfo[1];
         }
         
         // Debug.Log("ShowTranslation: "+quesInfo[0]+","+quesInfo[1]+","+quesInfo[2]);
-        c_hintST_count = c_hintST_count+1;
-        btn_hintST.GetComponentsInChildren<Text>()[0].text = c_hintST_count + "次";
-        xmlprocess.setRoundHintcount("hint_ST", c_hintST_count);
-        if (c_hintST_count >= hintST_count)
-        {
-            btn_hintST.interactable = false;
-        }
+       
     }
 
     void ExitGame()//等待時離開
