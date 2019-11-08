@@ -15,6 +15,7 @@ public class PracticeOmissionView : MonoBehaviour {
     public static bool showAchieve;
     string []achievementState;
     PracticeManager pm;
+    UpdateSQL us;
     string []userInfo;
     Xmlprocess xmlprocess;
 
@@ -48,6 +49,7 @@ public class PracticeOmissionView : MonoBehaviour {
     {
         achievementState = new string[5];//學習區獎章數量
         pm = new PracticeManager();
+        us = new UpdateSQL();
         StartCoroutine(showReviewVocabulary());
     }
 
@@ -441,23 +443,21 @@ public class PracticeOmissionView : MonoBehaviour {
 
 
     IEnumerator LearningEnd() {
-        yield return new WaitForSeconds(2f);
+       yield return new WaitForSeconds(2f);
         UIManager.Instance.TogglePanel("P_ResultUI",false);
-        
-       string rank_content="排名 玩家  最高分\n";
-        if(rank_content == "排名 玩家  最高分\n")
-        {
-            UI_ShowMes.GetComponentInChildren<Text>().text = "排名中...";
-        }
+
+        UI_ShowMes.SetActive(true);
+        UI_ShowPlayerRank.SetActive(true);
+        UI_ShowMes.GetComponentInChildren<Text>().text = "排名中...";
 
         // ############紀錄練習成績######################
-        if( ManageLevel_P.levelDifficulty == "easy")//更新練習主題與難意度
+        if( ManageLevel_P.levelDifficulty == "easy")//紀錄練習主題與難意度
         {
-            pm.setPracticeInfo("amplification",0);
+            pm.setPracticeInfo("omission",0);
         }
-        if( ManageLevel_P.levelDifficulty == "hard")//更新練習主題與難意度
+        if( ManageLevel_P.levelDifficulty == "hard")//紀錄練習主題與難意度
         {
-            pm.setPracticeInfo("amplification",1);
+            pm.setPracticeInfo("omission",1);
         }
         achievementState[0] = pm.setPracticeCount("practice_count");//更新單字練習次數
 
@@ -469,19 +469,30 @@ public class PracticeOmissionView : MonoBehaviour {
         if (pm.setPracticeCorrect(correctNum, wrongNum) != null) achievementState[3] = pm.setPracticeCorrect(correctNum, wrongNum);//更新單字答對與錯誤題數
         if (pm.setPracticeMaxCorrect(max_correctNum) != null) achievementState[4] = pm.setPracticeMaxCorrect(max_correctNum);//連續答對題數
         
-        // ############顯示玩家練習排行榜######################
-        gameObject.AddComponent<UpdateSQL>();//將成績紀錄於資料庫
+        // ############將練習記錄存入資料庫######################
+        // gameObject.AddComponent<UpdateSQL>();//將成績紀錄於資料庫
+        StartCoroutine(us.UpdatePractice_task());
 
-        // yield return new WaitForSeconds(1f);
-        StartCoroutine(pm.LoadRank("loadRank.php"));
-        // Debug.Log("user rank msg!!" + p_score.ToString());
-
+        // ############從資料庫讀取練習排行榜######################
+        if( ManageLevel_P.levelDifficulty == "easy")//依照練習主題與難意度下去全班排名
+        {
+            StartCoroutine(pm.LoadRank("OmissionRank_easy.php"));
+        }
+        if( ManageLevel_P.levelDifficulty == "hard")//依照練習主題與難意度下去全班排名
+        {
+            StartCoroutine(pm.LoadRank("OmissionRank_hard.php"));
+        }
         yield return new WaitForSeconds(1.5f);
 
-        UI_ShowMes.SetActive(true);
-        UI_ShowPlayerRank.SetActive(true);
 
+        // 顯示玩家本身最高得分
+        xmlprocess = new Xmlprocess ();
+        userInfo = xmlprocess.getUserInfo();
+        UI_ShowPlayerRank.GetComponentInChildren<Text>().text =  userInfo[1] + " " +us.user_rank.ToString() + "\n";
+
+        // 顯示全班前十名玩家
         int UserNum = 0; //計算前10名的玩家人數
+        string rank_content="排名 玩家  最高分\n";
         UserNum = pm.UsernameDic.Count;
 
         for (int i=0 ; i < UserNum ; i++ )
@@ -494,49 +505,12 @@ public class PracticeOmissionView : MonoBehaviour {
         
         UI_ShowMes.GetComponentInChildren<Text>().text = rank_content;
 
-        // 顯示玩家本身最高得分
-        xmlprocess = new Xmlprocess ();
-        userInfo = xmlprocess.getUserInfo();
-        UI_ShowPlayerRank.GetComponentInChildren<Text>().text =  userInfo[1] + " " +UpdateSQL.user_rank.ToString() + "\n";
-
-
-        // #####################################################
-        
-        /*---顯示獲得獎章與稱號---*/
         yield return new WaitForSeconds(3f);
-        UI_ShowPlayerRank.SetActive(false);
-        for (int i = 0; i < achievementState.Length; i++)
-        {
-            if (achievementState[i] != null)
-            {
-                UI_ShowMes.SetActive(true);
-                UI_ShowMes.GetComponentInChildren<Text>().text = achievementState[i];
-                switch (i)
-                {
-                    case 0:
-                        Achievement.badgeName[0] = "練習不是一兩天的事";
-                        break;
-                    case 1:
-                        Achievement.badgeName[1] = "得分魔人";
-                        break;
-                    case 2:
-                        Achievement.badgeName[2] = "努力沒有白費";
-                        break;
-                    case 3:
-                        Achievement.badgeName[3] = "難不倒我";
-                        break;
-                    case 4:
-                        Achievement.badgeName[4] = "腳踏實地";
-                        break;
-                }
-            }
-        }
+        
     /*--------------------------*/
     yield return new WaitForSeconds(5f);
-        showAchieve = true;
         SceneManager.LoadScene("Home");
         UIManager.Instance.CloseAllPanel();
-
     }
 
     void checkNextQues(int _quesID, string functionName)
