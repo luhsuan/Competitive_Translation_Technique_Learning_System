@@ -25,9 +25,7 @@ public class UpdateSQL : MonoBehaviour {
     static string id = "leelu";
     static string pwd = "lu293533";
     static string database = "translation";
-    public static string result = "";
-
-    public static string user_rank = "";
+    public string user_rank = "";
 
     string userID = "";
 
@@ -86,30 +84,30 @@ public class UpdateSQL : MonoBehaviour {
         mySQLAccess.InsertInto("learning_task", learning_task_col,learning_task);
 
         /*練習狀態 practice_task*/
-        string[] practice_task_col = new string[9];
-        practice_task_col[0] = "user_id";
-        practice_task_col[1] = "practice_theme";
-        practice_task_col[2] = "practice_level";
-        practice_task_col[3] = "practice_count";
-        practice_task_col[4] = "practice_correct";
-        practice_task_col[5] = "practice_wrong";
-        practice_task_col[6] = "practice_improve";
-        practice_task_col[7] = "highscore";
-        practice_task_col[8] = "uploadTime";
+        // string[] practice_task_col = new string[9];
+        // practice_task_col[0] = "user_id";
+        // practice_task_col[1] = "practice_theme";
+        // practice_task_col[2] = "practice_level";
+        // practice_task_col[3] = "practice_count";
+        // practice_task_col[4] = "practice_correct";
+        // practice_task_col[5] = "practice_wrong";
+        // practice_task_col[6] = "practice_improve";
+        // practice_task_col[7] = "highscore";
+        // practice_task_col[8] = "uploadTime";
 
-        node = xmlprocess.xmlDoc.SelectSingleNode("Loadfile/User/practice");
-        element = (XmlElement)node;
-        string[] practice_task = new string[9];
-        practice_task[0] = userID;
-        practice_task[1] = element.GetAttributeNode("practice_theme").Value;
-        practice_task[2] = element.GetAttributeNode("practice_level").Value;
-        practice_task[3] = element.GetAttributeNode("practice_count").Value;
-        practice_task[4] = element.GetAttributeNode("practice_correct").Value;
-        practice_task[5] = element.GetAttributeNode("practice_wrong").Value;
-        practice_task[6] = element.GetAttributeNode("practice_improve").Value;
-        practice_task[7] = element.GetAttributeNode("highscore").Value;
-        practice_task[8] = DateTime.Now.ToString();
-        mySQLAccess.InsertInto("practice_task", practice_task_col,practice_task);
+        // node = xmlprocess.xmlDoc.SelectSingleNode("Loadfile/User/practice");
+        // element = (XmlElement)node;
+        // string[] practice_task = new string[9];
+        // practice_task[0] = userID;
+        // practice_task[1] = element.GetAttributeNode("practice_theme").Value;
+        // practice_task[2] = element.GetAttributeNode("practice_level").Value;
+        // practice_task[3] = element.GetAttributeNode("practice_count").Value;
+        // practice_task[4] = element.GetAttributeNode("practice_correct").Value;
+        // practice_task[5] = element.GetAttributeNode("practice_wrong").Value;
+        // practice_task[6] = element.GetAttributeNode("practice_improve").Value;
+        // practice_task[7] = element.GetAttributeNode("highscore").Value;
+        // practice_task[8] = DateTime.Now.ToString();
+        // mySQLAccess.InsertInto("practice_task", practice_task_col,practice_task);
 
         /*對戰狀態*/
         string[] compete_task_col = new string[7];
@@ -244,37 +242,37 @@ public class UpdateSQL : MonoBehaviour {
         }
 
         /*回合紀錄*/
-        string[] round_record_col = new string[11];
-        round_record_col[0] = "user_id";
-        round_record_col[1] = "compete_id";
-        round_record_col[2] = "round_id";
-        round_record_col[3] = "ques_id";
-        round_record_col[4] = "ans_state";
-        round_record_col[5] = "duration";
-        round_record_col[6] = "hint_LA";
-        round_record_col[7] = "hint_ST";
-        round_record_col[8] = "score";
-        round_record_col[9] = "rank";
-        round_record_col[10] = "uploadTime";
+        // string[] round_record_col = new string[11];
+        // round_record_col[0] = "user_id";
+        // round_record_col[1] = "compete_id";
+        // round_record_col[2] = "round_id";
+        // round_record_col[3] = "ques_id";
+        // round_record_col[4] = "ans_state";
+        // round_record_col[5] = "duration";
+        // round_record_col[6] = "hint_LA";
+        // round_record_col[7] = "hint_ST";
+        // round_record_col[8] = "score";
+        // round_record_col[9] = "rank";
+        // round_record_col[10] = "uploadTime";
 
-        nodelist = xmlprocess.xmlDoc.SelectNodes("//round_record ");
-        foreach (XmlNode itemsNode in nodelist)
-        {
-            element = (XmlElement)itemsNode;
-            string[] round_record = new string[11];
-            round_record[0] = userID;
-            round_record[1] = element.GetAttributeNode("compete_id").Value;
-            round_record[2] = element.GetAttributeNode("round_id").Value;
-            round_record[3] = element.GetAttributeNode("ques_id").Value; 
-            round_record[4] = element.GetAttributeNode("ans_state").Value; 
-            round_record[5] = element.GetAttributeNode("duration").Value;
-            round_record[6] = element.GetAttributeNode("hint_LA").Value; 
-            round_record[7] = element.GetAttributeNode("hint_ST").Value; 
-            round_record[8] = element.GetAttributeNode("score").Value;
-            round_record[9] = element.GetAttributeNode("rank").Value;
-            round_record[10] = DateTime.Now.ToString();
-            mySQLAccess.InsertInto("round_record", round_record_col, round_record);
-        }
+        // nodelist = xmlprocess.xmlDoc.SelectNodes("//round_record ");
+        // foreach (XmlNode itemsNode in nodelist)
+        // {
+        //     element = (XmlElement)itemsNode;
+        //     string[] round_record = new string[11];
+        //     round_record[0] = userID;
+        //     round_record[1] = element.GetAttributeNode("compete_id").Value;
+        //     round_record[2] = element.GetAttributeNode("round_id").Value;
+        //     round_record[3] = element.GetAttributeNode("ques_id").Value; 
+        //     round_record[4] = element.GetAttributeNode("ans_state").Value; 
+        //     round_record[5] = element.GetAttributeNode("duration").Value;
+        //     round_record[6] = element.GetAttributeNode("hint_LA").Value; 
+        //     round_record[7] = element.GetAttributeNode("hint_ST").Value; 
+        //     round_record[8] = element.GetAttributeNode("score").Value;
+        //     round_record[9] = element.GetAttributeNode("rank").Value;
+        //     round_record[10] = DateTime.Now.ToString();
+        //     mySQLAccess.InsertInto("round_record", round_record_col, round_record);
+        // }
 
         /*場景紀錄*/
         string[] scene_record_col = new string[4];
@@ -299,7 +297,49 @@ public class UpdateSQL : MonoBehaviour {
         // Application.Quit();
     }
 
+     public IEnumerator UpdatePractice_task()
+    {
+        mySQLAccess = new MySQLAccess(host, id, pwd, database);
+        xmlprocess = new Xmlprocess();
+        yield return new WaitForSeconds(0.5f);
+       // xmlDoc = new XmlDocument();
+        //xmlDoc.Load(xmlprocess.getPath());
+        XmlNode node = xmlprocess.xmlDoc.SelectSingleNode("Loadfile/User");
+        XmlElement element = (XmlElement)node;
+        XmlAttribute attribute = element.GetAttributeNode("ID");
+        userID = attribute.Value;
 
+        /*查詢玩家練習排名*/
+        DataSet ds = new DataSet();
+        ds = mySQLAccess.Select("translation.practice_task", "MAX(highscore)", "user_id", "=", userID.ToString());
+        user_rank = ds.Tables[0].Rows[0][0].ToString();
+
+        string[] practice_task_col = new string[9];
+        practice_task_col[0] = "user_id";
+        practice_task_col[1] = "practice_theme";
+        practice_task_col[2] = "practice_level";
+        practice_task_col[3] = "practice_count";
+        practice_task_col[4] = "practice_correct";
+        practice_task_col[5] = "practice_wrong";
+        practice_task_col[6] = "practice_improve";
+        practice_task_col[7] = "highscore";
+        practice_task_col[8] = "uploadTime";
+
+        node = xmlprocess.xmlDoc.SelectSingleNode("Loadfile/User/practice");
+        element = (XmlElement)node;
+        string[] practice_task = new string[9];
+        practice_task[0] = userID;
+        practice_task[1] = element.GetAttributeNode("practice_theme").Value;
+        practice_task[2] = element.GetAttributeNode("practice_level").Value;
+        practice_task[3] = element.GetAttributeNode("practice_count").Value;
+        practice_task[4] = element.GetAttributeNode("practice_correct").Value;
+        practice_task[5] = element.GetAttributeNode("practice_wrong").Value;
+        practice_task[6] = element.GetAttributeNode("practice_improve").Value;
+        practice_task[7] = element.GetAttributeNode("highscore").Value;
+        practice_task[8] = DateTime.Now.ToString();
+        mySQLAccess.InsertInto("practice_task", practice_task_col,practice_task);
+
+    }
 
     public static void OnApplicationQuit()
     {
