@@ -68,9 +68,9 @@ public class LearningAmplificationView : MonoBehaviour {
     {
         UIManager.Instance.ShowPanel("P_ReviewUI");
 
-        text_Define = GetComponentsInChildren<Text>()[0];
-        text_Cotent = GetComponentsInChildren<Text>()[1];
-        text_Species = GetComponentsInChildren<Text>()[2];
+        text_Species = GetComponentsInChildren<Text>()[0];
+        text_Define = GetComponentsInChildren<Text>()[1];
+        text_Cotent = GetComponentsInChildren<Text>()[2];
         btn_pronun = GetComponentsInChildren<Button>()[1];
         btn_pre = GetComponentsInChildren<Button>()[2];
         btn_next = GetComponentsInChildren<Button>()[3];

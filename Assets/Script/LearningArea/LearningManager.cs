@@ -11,7 +11,9 @@ public class LearningManager {
     public Dictionary<int, string> Am_speciesDic = new Dictionary<int, string>();//key=單字ID,val=英文單字
     public Dictionary<int, string> Am_defineDic = new Dictionary<int, string>();//key=單字ID,val=英文中譯
     public Dictionary<int, string> Am_contentDic = new Dictionary<int, string>();//key=單字ID,val=英文意思
-
+    public Dictionary<int, string> Am_defineDic2 = new Dictionary<int, string>();//key=單字ID,val=英文意思
+    public Dictionary<int, string> Am_defineDic3 = new Dictionary<int, string>();//key=單字ID,val=英文意思
+    public Dictionary<int, string> Am_defineDic4 = new Dictionary<int, string>();//key=單字ID,val=英文意思
 
     public LearningManager() {
         xmlprocess = new Xmlprocess();
@@ -36,6 +38,38 @@ public class LearningManager {
                 Am_defineDic.Add(i, tmp2[1]);//定義
                 tmp2[2] = tmp2[2].Replace('/', ',');
                 Am_contentDic.Add(i, tmp2[2]);//例子
+            }
+        }
+        else
+        {
+            Debug.Log("error msg" + reg.error);
+        }
+    }
+
+     public IEnumerator LoadMeansVocabulary(string fileName)
+    {
+        WWWForm phpform = new WWWForm();
+        phpform.AddField("action", fileName);
+        WWW reg = new WWW(serverlink + fileName, phpform);
+        yield return reg;
+        string[] tmp, tmp2;
+        if (reg.error == null)
+        {
+            tmp = reg.text.Split('|');//最後一個是空的
+            for (int i = 0; i < tmp.Length - 1; i++)
+            {
+                tmp2 = tmp[i].Split(',');
+
+                Am_speciesDic.Add(i, tmp2[0]);//類別
+                // tmp2[1] = tmp2[1].Replace('/', ',');
+                Am_defineDic.Add(i, tmp2[1]);//定義
+                // tmp2[2] = tmp2[2].Replace('/', ',');
+                Am_defineDic2.Add(i, tmp2[2]);//例子
+                // tmp2[3] = tmp2[3].Replace('/', ',');
+                Am_defineDic3.Add(i, tmp2[3]);//定義
+                // tmp2[4] = tmp2[4].Replace('/', ',');
+                Am_defineDic4.Add(i, tmp2[4]);//定義
+
             }
         }
         else

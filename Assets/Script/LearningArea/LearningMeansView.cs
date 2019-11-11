@@ -16,7 +16,7 @@ public class LearningMeansView : MonoBehaviour {
     LearningManager pm;
 
     #region ReviewVocabulary UI
-    Text text_Define,text_Cotent,text_Species;
+    Text text_Define,text_Define2,text_Define3,text_Define4,text_Species;
     Button btn_pronun,btn_pre, btn_next, btn_gotonext, btn_skip;
     AudioSource VocabularyAS;
     #endregion
@@ -68,9 +68,11 @@ public class LearningMeansView : MonoBehaviour {
     {
         UIManager.Instance.ShowPanel("P_ReviewUI");
 
-        text_Define = GetComponentsInChildren<Text>()[0];
-        text_Cotent = GetComponentsInChildren<Text>()[1];
-        text_Species = GetComponentsInChildren<Text>()[2];
+        text_Species = GetComponentsInChildren<Text>()[0];
+        text_Define = GetComponentsInChildren<Text>()[1];
+        text_Define2 = GetComponentsInChildren<Text>()[2];
+        text_Define3 = GetComponentsInChildren<Text>()[3];
+        text_Define4 = GetComponentsInChildren<Text>()[4];
         btn_pronun = GetComponentsInChildren<Button>()[1];
         btn_pre = GetComponentsInChildren<Button>()[2];
         btn_next = GetComponentsInChildren<Button>()[3];
@@ -98,7 +100,7 @@ public class LearningMeansView : MonoBehaviour {
 
 
     IEnumerator showReviewVocabulary(){
-        StartCoroutine(pm.LoadVocabulary("loadMeansHangout.php"));
+        StartCoroutine(pm.LoadMeansVocabulary("loadMeansHangout.php"));
         yield return new WaitForSeconds(0.5f);
         UI_ShowMes.SetActive(false);
         showReviewUI();
@@ -119,7 +121,9 @@ public class LearningMeansView : MonoBehaviour {
                 // text_Translation.text = pm.T_vocabularyDic[vocabularyID]+"\n" + pm.EM_vocabularyDic[vocabularyID];
                 text_Species.text = pm.Am_speciesDic[vocabularyID];
                 text_Define.text = pm.Am_defineDic[vocabularyID];
-                text_Cotent.text = pm.Am_contentDic[vocabularyID];
+                text_Define2.text = pm.Am_defineDic2[vocabularyID];
+                text_Define3.text = pm.Am_defineDic3[vocabularyID];
+                text_Define4.text = pm.Am_defineDic4[vocabularyID];
             }
             else
             {
