@@ -387,6 +387,15 @@ public class Xmlprocess
         {
             // ###############紀錄practice_task內的主題難易度##################    
             XmlNode nodeLastLearning = null;
+            // XmlNodeList nodelist_Previous = null;
+            // if( theme == "means" )
+            // {
+            //     nodelist_Previous = xmlDoc.SelectNodes("//practice_means");
+            // }
+            //  if( theme == "conversion" )
+            // {
+            //     nodelist_Previous = xmlDoc.SelectNodes("//practice_conversion");
+            // }
             XmlNodeList nodelist_Previous = xmlDoc.SelectNodes("//practice");
             foreach (XmlNode itemsNode in nodelist_Previous)
             {
@@ -623,11 +632,12 @@ public class Xmlprocess
 
             XmlElement compete_record = xmlDoc.CreateElement("compete_record");
             compete_history.AppendChild(compete_record);
+            compete_record.SetAttribute("theme", "");
             compete_record.SetAttribute("compete_id", compete_id.ToString());
             compete_record.SetAttribute("startTime", DateTime.Now.ToString("HH: mm:ss"));
             compete_record.SetAttribute("endTime", "");
-            compete_record.SetAttribute("hint_LA", "0");//使用提示再聽一次的總次數
-            compete_record.SetAttribute("hint_ST", "0");//使用提示中譯的總次數
+            compete_record.SetAttribute("hint_TS", "0");//使用提示時間暫停五秒
+            compete_record.SetAttribute("hint_EO", "0");//使用提示排除一半選項
             compete_record.SetAttribute("correct", "0");
             compete_record.SetAttribute("maxcorrect", "0");
             compete_record.SetAttribute("score", "0");
@@ -640,7 +650,7 @@ public class Xmlprocess
     /// 進入遊戲，更新個人對戰的次數
     /// </summary>
     /// <param name="attributeName"></param>
-    public string setCompeteCount()
+    public string setCompeteCountandTheme(string theme)
     {
         if (isExits())
         {
@@ -650,6 +660,9 @@ public class Xmlprocess
             int count = XmlConvert.ToInt32(attribute.Value);
             count = count + 1;
             attribute.Value = count.ToString();
+
+           XmlAttribute attr_theme = element.GetAttributeNode("compete_theme");
+           attr_theme.Value = theme;
 
             saveData();
             return setBadgeCompeteCounts(count);
@@ -661,7 +674,7 @@ public class Xmlprocess
     /// <summary>
     ///對戰結束更新對戰紀錄 0:improve;1:highscore;2:rank
     /// </summary>
-    public string[] setCompeteScoreRecord(int hintLACount, int hintSTCount, int score, int rank)
+    public string[] setCompeteScoreRecord(string theme,int hintTSCount, int hintEOCount, int score, int rank)
     {
         if (isExits())
         {
@@ -676,14 +689,16 @@ public class Xmlprocess
                 }
             }
             XmlElement element = (XmlElement)nodeLastCompete;
+            XmlAttribute attr_theme = element.GetAttributeNode("theme");
             XmlAttribute attr_score = element.GetAttributeNode("score");
             XmlAttribute attr_endTime = element.GetAttributeNode("endTime");
-            XmlAttribute attr_hintLA = element.GetAttributeNode("hint_LA");
-            XmlAttribute attr_hintST = element.GetAttributeNode("hint_ST");
+            XmlAttribute attr_hintTS = element.GetAttributeNode("hint_TS");
+            XmlAttribute attr_hintEO = element.GetAttributeNode("hint_EO");
             XmlAttribute attr_rank = element.GetAttributeNode("rank");
-            attr_hintLA.Value = hintLACount.ToString();
-            attr_hintST.Value = hintSTCount.ToString();
+            attr_hintTS.Value = hintTSCount.ToString();
+            attr_hintEO.Value = hintEOCount.ToString();
             attr_score.Value = score.ToString();
+            attr_theme.Value = theme;
             attr_endTime.Value = DateTime.Now.ToString("HH: mm:ss");
             attr_rank.Value = rank.ToString();
             string []_state = updateCompeteHighScore(score,rank);
@@ -834,8 +849,8 @@ public class Xmlprocess
             round_record.SetAttribute("ques_id", quesID.ToString());//題號
             round_record.SetAttribute("ans_state", "");//作答正確或錯誤
             round_record.SetAttribute("duration", "0");//作答時間
-            round_record.SetAttribute("hint_LA", "0");//提示再聽一次的次數
-            round_record.SetAttribute("hint_ST", "0");//提示中譯的次數
+            round_record.SetAttribute("hint_TS", "0");//提示再聽一次的次數
+            round_record.SetAttribute("hint_EO", "0");//提示中譯的次數
             round_record.SetAttribute("score", "0");//作答時間
             round_record.SetAttribute("rank", "0");//當回合的排名
             saveData();

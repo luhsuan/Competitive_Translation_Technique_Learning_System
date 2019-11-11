@@ -60,10 +60,31 @@ public class XmlCreate{
             practice.SetAttribute("practice_wrong", Strcount);//累積答錯題數
             practice.SetAttribute("practice_improve", Strcount);//練習進步的次數
             practice.SetAttribute("highscore", Strcount);
+
+            // XmlElement practice_means  = xmlDoc.CreateElement("practice_means");
+            // User.AppendChild(practice_means);
+            // practice_means.SetAttribute("practice_theme", Strcount);//練習主題
+            // practice_means.SetAttribute("practice_level", Strcount);//練習難易度
+            // practice_means.SetAttribute("practice_count", Strcount);//完成練習的次數
+            // practice_means.SetAttribute("practice_correct", Strcount);//累積答對題數
+            // practice_means.SetAttribute("practice_wrong", Strcount);//累積答錯題數
+            // practice_means.SetAttribute("practice_improve", Strcount);//練習進步的次數
+            // practice_means.SetAttribute("highscore", Strcount);
+
+            // XmlElement practice_conversion  = xmlDoc.CreateElement("practice_conversion");
+            // User.AppendChild(practice_conversion);
+            // practice_conversion.SetAttribute("practice_theme", Strcount);//練習主題
+            // practice_conversion.SetAttribute("practice_level", Strcount);//練習難易度
+            // practice_conversion.SetAttribute("practice_count", Strcount);//完成練習的次數
+            // practice_conversion.SetAttribute("practice_correct", Strcount);//累積答對題數
+            // practice_conversion.SetAttribute("practice_wrong", Strcount);//累積答錯題數
+            // practice_conversion.SetAttribute("practice_improve", Strcount);//練習進步的次數
+            // practice_conversion.SetAttribute("highscore", Strcount);
             
         /*===============================---每一關卡的對戰狀況---===============================*/
             XmlElement compete = xmlDoc.CreateElement("compete");
 		    User.AppendChild(compete);
+            compete.SetAttribute("compete_theme", "");//對戰的次數
             compete.SetAttribute("compete_count", Strcount);//對戰的次數
             compete.SetAttribute("compete_correct", Strcount);//累積答對題數
             compete.SetAttribute("compete_wrong", Strcount);//累積答錯題數
