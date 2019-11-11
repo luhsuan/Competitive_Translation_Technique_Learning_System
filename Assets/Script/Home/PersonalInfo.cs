@@ -23,7 +23,7 @@ public class PersonalInfo : MonoBehaviour {
         xmlprocess = new Xmlprocess ();
         userInfo = xmlprocess.getUserInfo();
         userName.text = userInfo[1];
-        level.text = userInfo[2];
+        // level.text = userInfo[2];
         photo = Resources.LoadAll<Sprite>("Image/Main/Photo");
         switch (userInfo[3]) {
             case "0":
