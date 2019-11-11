@@ -26,7 +26,7 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
     string[] s_option;//該回合的選項
     string[] quesInfo, optionInfo;
     DateTime TurnStartTime;
-
+    string compete_theme;
 
     private PunTurnManager turnManager;
     private string localSelection, remoteSelection;
@@ -65,6 +65,7 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
         c_hintTS_count = 0; c_hintEO_count = 0;
         wrongNum = 0;
         IsShowingResults = false;
+        compete_theme = ManageLevel_C.level;
         RefreshConnectUI();
 
     }
@@ -181,10 +182,10 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
         btn_play.onClick.AddListener(delegate () { gameover(1, PlayerLists); });
         btn_exit.onClick.AddListener(delegate () { gameover(2, PlayerLists); });
         yield return new WaitForSeconds(0.1f);
-        achievementState[1] = xmlprocess.setCompeteCount();//對戰次數
+        achievementState[1] = xmlprocess.setCompeteCountandTheme(compete_theme);//對戰次數
         if (xmlprocess.setCompeteCorrectRecord(correctNum, wrongNum) != null) achievementState[2] = xmlprocess.setCompeteCorrectRecord(correctNum, wrongNum);//累積答對
         if (xmlprocess.setCompeteMaxCorrectRecord(max_correctNum) != null) achievementState[3] = xmlprocess.setCompeteMaxCorrectRecord(max_correctNum);//連續答對
-        string[] s_state = xmlprocess.setCompeteScoreRecord(c_hintTS_count, c_hintEO_count, local.GetScore(), localRank);//提示與分數排名
+        string[] s_state = xmlprocess.setCompeteScoreRecord(compete_theme,c_hintTS_count, c_hintEO_count, local.GetScore(), localRank);//提示與分數排名
         if (s_state[0] != null) achievementState[4] = s_state[0];//有進步
         if (s_state[1] != null) achievementState[5] = s_state[1];//有刷新分數
         if (s_state[2] != null) achievementState[6] = s_state[2];//有進榜
