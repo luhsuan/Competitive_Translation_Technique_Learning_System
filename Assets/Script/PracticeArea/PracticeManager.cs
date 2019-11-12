@@ -262,7 +262,7 @@ public class PracticeManager {
         /// <summary>
     /// 更新練習主題與難度 0:easy;1:hard
     /// </summary>
-    public void setPracticeInfo(string theme,int level)
+    public void setPracticeInfo(string theme,string level)
     {
         xmlprocess.setPracticeInfo(theme,level);
     }
