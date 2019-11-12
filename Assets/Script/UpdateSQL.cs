@@ -56,31 +56,23 @@ public class UpdateSQL : MonoBehaviour {
         mySQLAccess.UpdateInto("member", "level", userlevel, "user_id", userID.ToString());
 
         /*學習狀態 learning_task*/
-        string[] learning_task_col = new string[10];
+        string[] learning_task_col = new string[6];
         learning_task_col[0] = "user_id";
-        learning_task_col[1] = "review_amplification_count";
-        learning_task_col[2] = "learning_amplification_count";
-        learning_task_col[3] = "review_omission_count";
-        learning_task_col[4] = "learning_omission_count";
-        learning_task_col[5] = "review_means_count";
-        learning_task_col[6] = "learning_means_count";
-        learning_task_col[7] = "review_conversion_count";
-        learning_task_col[8] = "learning_conversion_count";
-        learning_task_col[9] = "uploadTime";
+        learning_task_col[1] = "review_means_count";
+        learning_task_col[2] = "learning_means_count";
+        learning_task_col[3] = "review_conversion_count";
+        learning_task_col[4] = "learning_conversion_count";
+        learning_task_col[5] = "uploadTime";
 
         node = xmlprocess.xmlDoc.SelectSingleNode("Loadfile/User/learning");
         element = (XmlElement)node;
-        string[] learning_task = new string[10];
+        string[] learning_task = new string[6];
         learning_task[0] = userID;
-        learning_task[1] = element.GetAttributeNode("review_amplification_count").Value;
-        learning_task[2] = element.GetAttributeNode("learning_amplification_count").Value;
-        learning_task[3] = element.GetAttributeNode("review_omission_count").Value;
-        learning_task[4] = element.GetAttributeNode("learning_omission_count").Value;
-        learning_task[5] = element.GetAttributeNode("review_means_count").Value;
-        learning_task[6] = element.GetAttributeNode("learning_means_count").Value;
-        learning_task[7] = element.GetAttributeNode("review_conversion_count").Value;
-        learning_task[8] = element.GetAttributeNode("learning_conversion_count").Value;
-        learning_task[9] = DateTime.Now.ToString();
+        learning_task[1] = element.GetAttributeNode("review_means_count").Value;
+        learning_task[2] = element.GetAttributeNode("learning_means_count").Value;
+        learning_task[3] = element.GetAttributeNode("review_conversion_count").Value;
+        learning_task[4] = element.GetAttributeNode("learning_conversion_count").Value;
+        learning_task[5] = DateTime.Now.ToString();
         mySQLAccess.InsertInto("learning_task", learning_task_col,learning_task);
 
         /*練習狀態 practice_task*/
@@ -301,7 +293,7 @@ public class UpdateSQL : MonoBehaviour {
         // Application.Quit();
     }
 
-     public IEnumerator UpdatePractice_task()
+     public IEnumerator UpdatePractice_task(string theme,string level)
     {
         mySQLAccess = new MySQLAccess(host, id, pwd, database);
         xmlprocess = new Xmlprocess();
@@ -329,7 +321,7 @@ public class UpdateSQL : MonoBehaviour {
         practice_task_col[7] = "highscore";
         practice_task_col[8] = "uploadTime";
 
-        node = xmlprocess.xmlDoc.SelectSingleNode("Loadfile/User/practice");
+        node = xmlprocess.xmlDoc.SelectSingleNode("Loadfile/User/practice_"+theme+"_"+level);
         element = (XmlElement)node;
         string[] practice_task = new string[9];
         practice_task[0] = userID;
@@ -342,6 +334,7 @@ public class UpdateSQL : MonoBehaviour {
         practice_task[7] = element.GetAttributeNode("highscore").Value;
         practice_task[8] = DateTime.Now.ToString();
         mySQLAccess.InsertInto("practice_task", practice_task_col,practice_task);
+
 
     }
 
