@@ -467,15 +467,18 @@ public class PracticeMeansView : MonoBehaviour {
         UI_ShowMes.GetComponentInChildren<Text>().text = "排名中...";
 
         // ############紀錄練習成績######################
+        string theme = "";
         if( ManageLevel_P.levelDifficulty == "easy")//紀錄練習主題與難意度
         {
-            pm.setPracticeInfo("means",0);
+            pm.setPracticeInfo("means","0");
+            theme = "0";
         }
         if( ManageLevel_P.levelDifficulty == "hard")//紀錄練習主題與難意度
         {
-            pm.setPracticeInfo("means",1);
+            pm.setPracticeInfo("means","1");
+            theme = "1";
         }
-        achievementState[0] = pm.setPracticeCount("practice_count");//更新單字練習次數
+        achievementState[0] = pm.setPracticeCount("practice_means_"+theme);//更新單字練習次數
 
         string[] s_state = pm.setPracticeScore(p_score);//紀錄此次單字練習成績
         if (s_state!=null) {
@@ -487,7 +490,7 @@ public class PracticeMeansView : MonoBehaviour {
         
         // ############將練習記錄存入資料庫######################
         // gameObject.AddComponent<UpdateSQL>();//將成績紀錄於資料庫
-        StartCoroutine(us.UpdatePractice_task());
+        StartCoroutine(us.UpdatePractice_task("means",theme));
 
         // ############從資料庫讀取練習排行榜######################
         if( ManageLevel_P.levelDifficulty == "easy")//依照練習主題與難意度下去全班排名
