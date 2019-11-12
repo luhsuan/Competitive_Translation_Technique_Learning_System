@@ -41,45 +41,51 @@ public class XmlCreate{
         /*===============================學習關卡的學習狀況---===============================*/
            XmlElement learning  = xmlDoc.CreateElement("learning");
 		    User.AppendChild(learning);
-            learning.SetAttribute("review_amplification_count", Strcount);//查看單字的次數
-            learning.SetAttribute("learning_amplification_count", Strcount);//完成學習的次數
-            learning.SetAttribute("review_omission_count", Strcount);//查看單字的次數
-            learning.SetAttribute("learning_omission_count", Strcount);//完成學習的次數
             learning.SetAttribute("review_means_count", Strcount);//查看單字的次數
             learning.SetAttribute("learning_means_count", Strcount);//完成學習的次數
             learning.SetAttribute("review_conversion_count", Strcount);//查看單字的次數
             learning.SetAttribute("learning_conversion_count", Strcount);//完成學習的次數
             
         /*===============================練習關卡的練習狀況---===============================*/
-            XmlElement practice  = xmlDoc.CreateElement("practice");
-            User.AppendChild(practice);
-            practice.SetAttribute("practice_theme", Strcount);//練習主題
-            practice.SetAttribute("practice_level", Strcount);//練習難易度
-            practice.SetAttribute("practice_count", Strcount);//完成練習的次數
-            practice.SetAttribute("practice_correct", Strcount);//累積答對題數
-            practice.SetAttribute("practice_wrong", Strcount);//累積答錯題數
-            practice.SetAttribute("practice_improve", Strcount);//練習進步的次數
-            practice.SetAttribute("highscore", Strcount);
+            XmlElement practice_means_easy  = xmlDoc.CreateElement("practice_means_0");
+            User.AppendChild(practice_means_easy);
+            practice_means_easy.SetAttribute("practice_theme", "means");//練習主題
+            practice_means_easy.SetAttribute("practice_level", "0");//練習難易度
+            practice_means_easy.SetAttribute("practice_count", Strcount);//完成練習的次數
+            practice_means_easy.SetAttribute("practice_correct", Strcount);//累積答對題數
+            practice_means_easy.SetAttribute("practice_wrong", Strcount);//累積答錯題數
+            practice_means_easy.SetAttribute("practice_improve", Strcount);//練習進步的次數
+            practice_means_easy.SetAttribute("highscore", Strcount);
 
-            // XmlElement practice_means  = xmlDoc.CreateElement("practice_means");
-            // User.AppendChild(practice_means);
-            // practice_means.SetAttribute("practice_theme", Strcount);//練習主題
-            // practice_means.SetAttribute("practice_level", Strcount);//練習難易度
-            // practice_means.SetAttribute("practice_count", Strcount);//完成練習的次數
-            // practice_means.SetAttribute("practice_correct", Strcount);//累積答對題數
-            // practice_means.SetAttribute("practice_wrong", Strcount);//累積答錯題數
-            // practice_means.SetAttribute("practice_improve", Strcount);//練習進步的次數
-            // practice_means.SetAttribute("highscore", Strcount);
+            XmlElement practice_means_hard  = xmlDoc.CreateElement("practice_means_1");
+            User.AppendChild(practice_means_hard);
+            practice_means_hard.SetAttribute("practice_theme", "means");//練習主題
+            practice_means_hard.SetAttribute("practice_level", "1");//練習難易度
+            practice_means_hard.SetAttribute("practice_count", Strcount);//完成練習的次數
+            practice_means_hard.SetAttribute("practice_correct", Strcount);//累積答對題數
+            practice_means_hard.SetAttribute("practice_wrong", Strcount);//累積答錯題數
+            practice_means_hard.SetAttribute("practice_improve", Strcount);//練習進步的次數
+            practice_means_hard.SetAttribute("highscore", Strcount);
 
-            // XmlElement practice_conversion  = xmlDoc.CreateElement("practice_conversion");
-            // User.AppendChild(practice_conversion);
-            // practice_conversion.SetAttribute("practice_theme", Strcount);//練習主題
-            // practice_conversion.SetAttribute("practice_level", Strcount);//練習難易度
-            // practice_conversion.SetAttribute("practice_count", Strcount);//完成練習的次數
-            // practice_conversion.SetAttribute("practice_correct", Strcount);//累積答對題數
-            // practice_conversion.SetAttribute("practice_wrong", Strcount);//累積答錯題數
-            // practice_conversion.SetAttribute("practice_improve", Strcount);//練習進步的次數
-            // practice_conversion.SetAttribute("highscore", Strcount);
+            XmlElement practice_conversion_easy  = xmlDoc.CreateElement("practice_conversion_0");
+            User.AppendChild(practice_conversion_easy);
+            practice_conversion_easy.SetAttribute("practice_theme", "conversion");//練習主題
+            practice_conversion_easy.SetAttribute("practice_level", Strcount);//練習難易度
+            practice_conversion_easy.SetAttribute("practice_count", Strcount);//完成練習的次數
+            practice_conversion_easy.SetAttribute("practice_correct", Strcount);//累積答對題數
+            practice_conversion_easy.SetAttribute("practice_wrong", Strcount);//累積答錯題數
+            practice_conversion_easy.SetAttribute("practice_improve", Strcount);//練習進步的次數
+            practice_conversion_easy.SetAttribute("highscore", Strcount);
+
+            XmlElement practice_conversion_hard  = xmlDoc.CreateElement("practice_conversion_1");
+            User.AppendChild(practice_conversion_hard);
+            practice_conversion_hard.SetAttribute("practice_theme", "conversion");//練習主題
+            practice_conversion_hard.SetAttribute("practice_level", Strcount);//練習難易度
+            practice_conversion_hard.SetAttribute("practice_count", Strcount);//完成練習的次數
+            practice_conversion_hard.SetAttribute("practice_correct", Strcount);//累積答對題數
+            practice_conversion_hard.SetAttribute("practice_wrong", Strcount);//累積答錯題數
+            practice_conversion_hard.SetAttribute("practice_improve", Strcount);//練習進步的次數
+            practice_conversion_hard.SetAttribute("highscore", Strcount);
             
         /*===============================---每一關卡的對戰狀況---===============================*/
             XmlElement compete = xmlDoc.CreateElement("compete");

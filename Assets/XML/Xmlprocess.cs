@@ -262,7 +262,7 @@ public class Xmlprocess
     }
 
     /// <summary>
-    /// 更新練習次數
+    /// 更新practice_task練習次數
     /// </summary>
     /// <param name="attributeName">review_count或是learning_count</param>
     public string setPracticeCount(string attributeName)
@@ -270,9 +270,9 @@ public class Xmlprocess
         string state = null;
         if (isExits())
         {
-            XmlNode node = xmlDoc.SelectSingleNode("Loadfile/User/practice");
+            XmlNode node = xmlDoc.SelectSingleNode("Loadfile/User/"+attributeName);
             XmlElement element = (XmlElement)node;
-            XmlAttribute attribute = element.GetAttributeNode(attributeName);
+            XmlAttribute attribute = element.GetAttributeNode("practice_count");
             int count = XmlConvert.ToInt32(attribute.Value);
             count = count + 1;
             attribute.Value = count.ToString();
@@ -381,22 +381,13 @@ public class Xmlprocess
     /// <summary>
     /// 紀錄每回合練習主題與難易度 0:easy;1:hard
     /// </summary>
-    public string[] setPracticeInfo(string theme,int level)
+    public string[] setPracticeInfo(string theme,string level)
     {
         if (isExits())
         {
             // ###############紀錄practice_task內的主題難易度##################    
             XmlNode nodeLastLearning = null;
-            // XmlNodeList nodelist_Previous = null;
-            // if( theme == "means" )
-            // {
-            //     nodelist_Previous = xmlDoc.SelectNodes("//practice_means");
-            // }
-            //  if( theme == "conversion" )
-            // {
-            //     nodelist_Previous = xmlDoc.SelectNodes("//practice_conversion");
-            // }
-            XmlNodeList nodelist_Previous = xmlDoc.SelectNodes("//practice");
+            XmlNodeList nodelist_Previous = xmlDoc.SelectNodes("//practice_"+theme+"_"+level);
             foreach (XmlNode itemsNode in nodelist_Previous)
             {
                 XmlAttributeCollection xAT2 = itemsNode.Attributes;
@@ -405,12 +396,7 @@ public class Xmlprocess
                     nodeLastLearning = itemsNode;
                 }
             }
-            XmlElement element = (XmlElement)nodeLastLearning;
-            XmlAttribute attr_theme = element.GetAttributeNode("practice_theme");
-            XmlAttribute attr_level = element.GetAttributeNode("practice_level");
-
-            attr_theme.Value = theme;
-            attr_level.Value = level.ToString();
+    
 
             // ###############紀錄practice_record內的主題難易度##################    
             nodeLastLearning = null;
@@ -423,9 +409,9 @@ public class Xmlprocess
                     nodeLastLearning = itemsNode;
                 }
             }
-            element = (XmlElement)nodeLastLearning;
-            attr_theme = element.GetAttributeNode("theme");
-            attr_level = element.GetAttributeNode("level");
+            XmlElement element = (XmlElement)nodeLastLearning;
+            XmlAttribute attr_theme = element.GetAttributeNode("theme");
+            XmlAttribute attr_level = element.GetAttributeNode("level");
 
             attr_theme.Value = theme;
             attr_level.Value = level.ToString();
@@ -455,10 +441,14 @@ public class Xmlprocess
             XmlElement element = (XmlElement)nodeLastLearning;
             XmlAttribute attr_score = element.GetAttributeNode("score");
             XmlAttribute attr_endTime = element.GetAttributeNode("endTime");
+            XmlAttribute attr_theme = element.GetAttributeNode("theme");
+            XmlAttribute attr_level = element.GetAttributeNode("level");
 
             attr_score.Value = score.ToString();
             attr_endTime.Value = DateTime.Now.ToString("HH: mm:ss");
-            string[] _state = updateHighScore(score);
+            string theme = attr_theme.Value;
+            string level = attr_level.Value;
+            string[] _state = updateHighScore(score,theme,level);
             saveData();
             if (_state != null) {//表示刷新分數
                 return _state;
@@ -468,9 +458,9 @@ public class Xmlprocess
         return null;
     }
 
-    string[] updateHighScore(int score)
+    string[] updateHighScore(int score,string theme,string level)
     {
-        XmlNode node = xmlDoc.SelectSingleNode("Loadfile/User/practice");
+        XmlNode node = xmlDoc.SelectSingleNode("Loadfile/User/practice_"+theme+"_"+level);
         XmlElement element = (XmlElement)node;
         XmlAttribute attribute = element.GetAttributeNode("highscore");
         int highscore = XmlConvert.ToInt32(attribute.Value);
@@ -478,7 +468,7 @@ public class Xmlprocess
         if (score > highscore)
         {
             attribute.Value = score.ToString();
-            int improveCounts = setPracticeScoreImprove();//當前進步次數
+            int improveCounts = setPracticeScoreImprove(theme,level);//當前進步次數
             _state[0] = setBadgeLearningHighScore(score);
             _state[1]= setBadgeLearningImprove(improveCounts);
             return _state;
@@ -508,9 +498,13 @@ public class Xmlprocess
             XmlElement element = (XmlElement)nodeLastLearning;
             XmlAttribute attr_correct = element.GetAttributeNode("correct");
             attr_correct.Value = correctCount.ToString();
+            XmlAttribute attr_theme = element.GetAttributeNode("theme");
+            string theme = attr_theme.Value;
+            XmlAttribute attr_level = element.GetAttributeNode("level");
+            string level = attr_level.Value;
 
             /*更新學習區的累積答對答錯題數*/
-            XmlNode node = xmlDoc.SelectSingleNode("Loadfile/User/practice");
+            XmlNode node = xmlDoc.SelectSingleNode("Loadfile/User/practice_"+theme+"_"+level);
             XmlElement element1 = (XmlElement)node;
             XmlAttribute attr_correctSum = element1.GetAttributeNode("practice_correct");
             XmlAttribute attr_wrongSum = element1.GetAttributeNode("practice_wrong");
@@ -562,9 +556,9 @@ public class Xmlprocess
     /// 更新練習進步總次數
     /// </summary>
     /// <returns></returns>
-    int setPracticeScoreImprove()
+    int setPracticeScoreImprove(string theme,string level)
     {
-        XmlNode node = xmlDoc.SelectSingleNode("Loadfile/User/practice");
+        XmlNode node = xmlDoc.SelectSingleNode("Loadfile/User/practice_"+theme+"_"+level);
         XmlElement element = (XmlElement)node;
         XmlAttribute attr_count = element.GetAttributeNode("practice_count");
         XmlAttribute attr_improve = element.GetAttributeNode("practice_improve");
