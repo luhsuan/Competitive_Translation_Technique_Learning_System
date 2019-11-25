@@ -70,7 +70,7 @@ public class XmlCreate{
             XmlElement practice_conversion_easy  = xmlDoc.CreateElement("practice_conversion_0");
             User.AppendChild(practice_conversion_easy);
             practice_conversion_easy.SetAttribute("practice_theme", "conversion");//練習主題
-            practice_conversion_easy.SetAttribute("practice_level", Strcount);//練習難易度
+            practice_conversion_easy.SetAttribute("practice_level", "0");//練習難易度
             practice_conversion_easy.SetAttribute("practice_count", Strcount);//完成練習的次數
             practice_conversion_easy.SetAttribute("practice_correct", Strcount);//累積答對題數
             practice_conversion_easy.SetAttribute("practice_wrong", Strcount);//累積答錯題數
@@ -80,7 +80,7 @@ public class XmlCreate{
             XmlElement practice_conversion_hard  = xmlDoc.CreateElement("practice_conversion_1");
             User.AppendChild(practice_conversion_hard);
             practice_conversion_hard.SetAttribute("practice_theme", "conversion");//練習主題
-            practice_conversion_hard.SetAttribute("practice_level", Strcount);//練習難易度
+            practice_conversion_hard.SetAttribute("practice_level", "1");//練習難易度
             practice_conversion_hard.SetAttribute("practice_count", Strcount);//完成練習的次數
             practice_conversion_hard.SetAttribute("practice_correct", Strcount);//累積答對題數
             practice_conversion_hard.SetAttribute("practice_wrong", Strcount);//累積答錯題數
@@ -88,14 +88,32 @@ public class XmlCreate{
             practice_conversion_hard.SetAttribute("highscore", Strcount);
             
         /*===============================---每一關卡的對戰狀況---===============================*/
-            XmlElement compete = xmlDoc.CreateElement("compete");
-		    User.AppendChild(compete);
-            compete.SetAttribute("compete_theme", "");//對戰的次數
-            compete.SetAttribute("compete_count", Strcount);//對戰的次數
-            compete.SetAttribute("compete_correct", Strcount);//累積答對題數
-            compete.SetAttribute("compete_wrong", Strcount);//累積答錯題數
-            compete.SetAttribute("compete_improve", Strcount);//對戰進步的次數
-            compete.SetAttribute("highscore", Strcount);//對戰的最高分數
+            XmlElement compete_integrate = xmlDoc.CreateElement("compete_integrate");
+		    User.AppendChild(compete_integrate);
+            compete_integrate.SetAttribute("compete_theme", "integrate");//對戰的次數
+            compete_integrate.SetAttribute("compete_count", Strcount);//對戰的次數
+            compete_integrate.SetAttribute("compete_correct", Strcount);//累積答對題數
+            compete_integrate.SetAttribute("compete_wrong", Strcount);//累積答錯題數
+            compete_integrate.SetAttribute("compete_improve", Strcount);//對戰進步的次數
+            compete_integrate.SetAttribute("highscore", Strcount);//對戰的最高分數
+
+            XmlElement compete_means = xmlDoc.CreateElement("compete_means");
+            User.AppendChild(compete_means);
+            compete_means.SetAttribute("compete_theme", "means");//對戰的次數
+            compete_means.SetAttribute("compete_count", Strcount);//對戰的次數
+            compete_means.SetAttribute("compete_correct", Strcount);//累積答對題數
+            compete_means.SetAttribute("compete_wrong", Strcount);//累積答錯題數
+            compete_means.SetAttribute("compete_improve", Strcount);//對戰進步的次數
+            compete_means.SetAttribute("highscore", Strcount);//對戰的最高分數
+
+            XmlElement compete_conversion = xmlDoc.CreateElement("compete_conversion");
+            User.AppendChild(compete_conversion);
+            compete_conversion.SetAttribute("compete_theme", "conversion");//對戰的次數
+            compete_conversion.SetAttribute("compete_count", Strcount);//對戰的次數
+            compete_conversion.SetAttribute("compete_correct", Strcount);//累積答對題數
+            compete_conversion.SetAttribute("compete_wrong", Strcount);//累積答錯題數
+            compete_conversion.SetAttribute("compete_improve", Strcount);//對戰進步的次數
+            compete_conversion.SetAttribute("highscore", Strcount);//對戰的最高分數
 
         /*====================================---各類獎章獲得紀錄---====================================*/
         XmlElement badge_record = xmlDoc.CreateElement("badge_record");

@@ -578,7 +578,7 @@ public class Xmlprocess
     /// <summary>
     /// 新增一筆對戰紀錄
     /// </summary>
-    public void createCompeteRecord()
+    public void createCompeteRecord(string theme)
     {
         XmlNode nodeLast = null;
         XmlElement compete_history = null;
@@ -617,7 +617,7 @@ public class Xmlprocess
                 compete_history = (XmlElement)n_compete_history;
             }
 
-            XmlNode node = xmlDoc.SelectSingleNode("Loadfile/User/compete");//根據當前對戰完成次數+1作為對戰id
+            XmlNode node = xmlDoc.SelectSingleNode("Loadfile/User/compete_"+theme);//根據當前對戰完成次數+1作為對戰id
             XmlElement element_compete = (XmlElement)node;
             XmlAttribute attr_competecount = element_compete.GetAttributeNode("compete_count");
             int count = XmlConvert.ToInt32(attr_competecount.Value);
@@ -630,7 +630,7 @@ public class Xmlprocess
             compete_record.SetAttribute("compete_id", compete_id.ToString());
             compete_record.SetAttribute("startTime", DateTime.Now.ToString("HH: mm:ss"));
             compete_record.SetAttribute("endTime", "");
-            compete_record.SetAttribute("hint_TS", "0");//使用提示時間暫停五秒
+            compete_record.SetAttribute("hint_SA", "0");//使用提示時間暫停五秒
             compete_record.SetAttribute("hint_EO", "0");//使用提示排除一半選項
             compete_record.SetAttribute("correct", "0");
             compete_record.SetAttribute("maxcorrect", "0");
@@ -648,7 +648,7 @@ public class Xmlprocess
     {
         if (isExits())
         {
-            XmlNode node = xmlDoc.SelectSingleNode("Loadfile/User/compete");
+            XmlNode node = xmlDoc.SelectSingleNode("Loadfile/User/compete_"+theme);
             XmlElement element = (XmlElement)node;
             XmlAttribute attribute = element.GetAttributeNode("compete_count");
             int count = XmlConvert.ToInt32(attribute.Value);
@@ -668,7 +668,7 @@ public class Xmlprocess
     /// <summary>
     ///對戰結束更新對戰紀錄 0:improve;1:highscore;2:rank
     /// </summary>
-    public string[] setCompeteScoreRecord(string theme,int hintTSCount, int hintEOCount, int score, int rank)
+    public string[] setCompeteScoreRecord(string theme,int hintSACount, int hintEOCount, int score, int rank)
     {
         if (isExits())
         {
@@ -686,25 +686,25 @@ public class Xmlprocess
             XmlAttribute attr_theme = element.GetAttributeNode("theme");
             XmlAttribute attr_score = element.GetAttributeNode("score");
             XmlAttribute attr_endTime = element.GetAttributeNode("endTime");
-            XmlAttribute attr_hintTS = element.GetAttributeNode("hint_TS");
+            XmlAttribute attr_hintSA = element.GetAttributeNode("hint_SA");
             XmlAttribute attr_hintEO = element.GetAttributeNode("hint_EO");
             XmlAttribute attr_rank = element.GetAttributeNode("rank");
-            attr_hintTS.Value = hintTSCount.ToString();
+            attr_hintSA.Value = hintSACount.ToString();
             attr_hintEO.Value = hintEOCount.ToString();
             attr_score.Value = score.ToString();
             attr_theme.Value = theme;
             attr_endTime.Value = DateTime.Now.ToString("HH: mm:ss");
             attr_rank.Value = rank.ToString();
-            string []_state = updateCompeteHighScore(score,rank);
+            string []_state = updateCompeteHighScore(score,rank,theme);
             saveData();
             return _state;
         }
         return null;
     }
 
-    string [] updateCompeteHighScore(int score,int rank)
+    string [] updateCompeteHighScore(int score,int rank,string theme)
     {
-        XmlNode node = xmlDoc.SelectSingleNode("Loadfile/User/compete");
+        XmlNode node = xmlDoc.SelectSingleNode("Loadfile/User/compete_"+theme);
         XmlElement element = (XmlElement)node;
         XmlAttribute attribute = element.GetAttributeNode("highscore");
         int highscore = XmlConvert.ToInt32(attribute.Value);
@@ -712,7 +712,7 @@ public class Xmlprocess
         if (score > highscore)
         {
             attribute.Value = score.ToString();
-            int improveCounts = CompeteScoreImprove();//當前進步次數
+            int improveCounts = CompeteScoreImprove(theme);//當前進步次數
             _state[0] = setBadgeCompeteHighScore(score);
             _state[1] = setBadgeCompeteImprove(improveCounts);
         }
@@ -726,7 +726,7 @@ public class Xmlprocess
     /// <summary>
     /// 更新本次對戰紀錄的正確與錯誤題數
     /// </summary>
-    public string setCompeteCorrectRecord(int correctCount, int wrongCount)
+    public string setCompeteCorrectRecord(int correctCount, int wrongCount,string theme)
     {
         if (isExits())
         {
@@ -746,7 +746,7 @@ public class Xmlprocess
             attr_correct.Value = correctCount.ToString();
 
             /*更新對戰區的累積答對答錯題數*/
-            XmlNode node = xmlDoc.SelectSingleNode("Loadfile/User/compete");
+            XmlNode node = xmlDoc.SelectSingleNode("Loadfile/User/compete_"+theme);
             XmlElement element1 = (XmlElement)node;
             XmlAttribute attr_correctSum = element1.GetAttributeNode("compete_correct");
             XmlAttribute attr_wrongSum = element1.GetAttributeNode("compete_wrong");
@@ -797,9 +797,9 @@ public class Xmlprocess
     /// 對戰進步次數
     /// </summary>
     /// <returns></returns>
-    int CompeteScoreImprove()
+    int CompeteScoreImprove(string theme)
     {
-        XmlNode node = xmlDoc.SelectSingleNode("Loadfile/User/compete");
+        XmlNode node = xmlDoc.SelectSingleNode("Loadfile/User/compete_"+theme);
         XmlElement element = (XmlElement)node;
         XmlAttribute attribute = element.GetAttributeNode("compete_improve");
         int count = XmlConvert.ToInt32(attribute.Value);
@@ -843,9 +843,9 @@ public class Xmlprocess
             round_record.SetAttribute("ques_id", quesID.ToString());//題號
             round_record.SetAttribute("ans_state", "");//作答正確或錯誤
             round_record.SetAttribute("duration", "0");//作答時間
-            round_record.SetAttribute("hint_TS", "0");//提示再聽一次的次數
-            round_record.SetAttribute("hint_EO", "0");//提示中譯的次數
-            round_record.SetAttribute("score", "0");//作答時間
+            round_record.SetAttribute("hint_SA", "0");//顯示答案
+            round_record.SetAttribute("hint_EO", "0");//提示排除一半選項
+            round_record.SetAttribute("score", "0");//作答分數
             round_record.SetAttribute("rank", "0");//當回合的排名
             saveData();
         }
