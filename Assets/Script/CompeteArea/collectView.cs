@@ -14,15 +14,15 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
     public AudioSource vol_pronun;
     PhotonPlayer[] player;
     AudioSource ClickBtn,ChooseCard;
-    Button btn_gamestart, btn_Wexit,btn_hintTS,btn_hintEO;
+    Button btn_gamestart, btn_Wexit,btn_hintSA,btn_hintEO;
     bool timerflag = false;
     bool timestop = false;
 
     int currentTime;
     int max_correctNum, C_correctNum, correctNum, wrongNum;
     int cardCount;//卡牌數量
-    static int c_hintTS_count, c_hintEO_count;//當前使用提示的次數
-    static int hintTS_count, hintEO_count;//使用提示的最大次數
+    static int c_hintSA_count, c_hintEO_count;//當前使用提示的次數
+    static int hintSA_count, hintEO_count;//使用提示的最大次數
     string[] s_option;//該回合的選項
     string[] quesInfo, optionInfo;
     DateTime TurnStartTime;
@@ -61,8 +61,8 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
         C_correctNum = -1;//當前連續答對題數
         max_correctNum = -1;//最大連續答對數
         correctNum = 0;//累計正確題數
-        hintTS_count = 3; hintEO_count = 3;
-        c_hintTS_count = 0; c_hintEO_count = 0;
+        hintSA_count = 1; hintEO_count = 3;
+        c_hintSA_count = 0; c_hintEO_count = 0;
         wrongNum = 0;
         IsShowingResults = false;
         compete_theme = ManageLevel_C.level;
@@ -173,19 +173,21 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
             if (player[i].NickName == local.NickName) localRank = i + 1;
             ResultUIView.GetComponentsInChildren<Text>()[0].text += player[i].NickName + "　分數:" + player[i].GetScore().ToString("D2") + "\n\n";
         }
-        ResultUIView.GetComponentsInChildren<Text>()[1].text = c_hintTS_count.ToString();
+        ResultUIView.GetComponentsInChildren<Text>()[1].text = c_hintSA_count.ToString();
         ResultUIView.GetComponentsInChildren<Text>()[2].text = c_hintEO_count.ToString();
         Button btn_learn = ResultUIView.GetComponentsInChildren<Button>()[0];
-        Button btn_play = ResultUIView.GetComponentsInChildren<Button>()[1];
-        Button btn_exit = ResultUIView.GetComponentsInChildren<Button>()[2];
+        Button btn_practice = ResultUIView.GetComponentsInChildren<Button>()[1];
+        Button btn_compete = ResultUIView.GetComponentsInChildren<Button>()[2];
+        Button btn_exit = ResultUIView.GetComponentsInChildren<Button>()[3];
         btn_learn.onClick.AddListener(delegate () { gameover(0, PlayerLists); });
-        btn_play.onClick.AddListener(delegate () { gameover(1, PlayerLists); });
-        btn_exit.onClick.AddListener(delegate () { gameover(2, PlayerLists); });
+        btn_practice.onClick.AddListener(delegate () { gameover(1, PlayerLists); });
+        btn_compete.onClick.AddListener(delegate () { gameover(2, PlayerLists); });
+        btn_exit.onClick.AddListener(delegate () { gameover(3, PlayerLists); });
         yield return new WaitForSeconds(0.1f);
-        achievementState[1] = xmlprocess.setCompeteCountandTheme(compete_theme);//對戰次數
-        if (xmlprocess.setCompeteCorrectRecord(correctNum, wrongNum) != null) achievementState[2] = xmlprocess.setCompeteCorrectRecord(correctNum, wrongNum);//累積答對
+        achievementState[1] = xmlprocess.setCompeteCountandTheme(ManageLevel_C.level);//對戰次數
+        if (xmlprocess.setCompeteCorrectRecord(correctNum, wrongNum,ManageLevel_C.level) != null) achievementState[3] = xmlprocess.setCompeteCorrectRecord(correctNum, wrongNum,ManageLevel_C.level);//累積答對
         if (xmlprocess.setCompeteMaxCorrectRecord(max_correctNum) != null) achievementState[3] = xmlprocess.setCompeteMaxCorrectRecord(max_correctNum);//連續答對
-        string[] s_state = xmlprocess.setCompeteScoreRecord(compete_theme,c_hintTS_count, c_hintEO_count, local.GetScore(), localRank);//提示與分數排名
+        string[] s_state = xmlprocess.setCompeteScoreRecord(ManageLevel_C.level,c_hintSA_count, c_hintEO_count, local.GetScore(), localRank);//提示與分數排名
         if (s_state[0] != null) achievementState[4] = s_state[0];//有進步
         if (s_state[1] != null) achievementState[5] = s_state[1];//有刷新分數
         if (s_state[2] != null) achievementState[6] = s_state[2];//有進榜
@@ -204,7 +206,7 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
         {
             this.turnManager.BeginTurn();
             this.turnManager.selectQues(collectConn.ques);
-            if(ManageLevel_C.level != "Integrate")
+            if(ManageLevel_C.level != "integrate")
             {
                 this.turnManager.randomOptions(collectConn.option);
             }
@@ -236,11 +238,11 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
             }
         }
         //產生卡牌
-        if( ManageLevel_C.level == "Amplification" || ManageLevel_C.level == "Omission" )
+        if( ManageLevel_C.level == "amplification" || ManageLevel_C.level == "omission" )
         {
             createCard();
         }
-        if( ManageLevel_C.level == "Means" || ManageLevel_C.level == "Conversion" || ManageLevel_C.level == "Integrate")
+        if( ManageLevel_C.level == "means" || ManageLevel_C.level == "conversion" || ManageLevel_C.level == "integrate")
         {
             createCardbyId();
         }
@@ -252,17 +254,17 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
 
         timerflag = true;
         Debug.Log("關卡:"+ManageLevel_C.level);
-        if( ManageLevel_C.level == "Amplification" || ManageLevel_C.level == "Integrate")
+        if( ManageLevel_C.level == "amplification")
         {
             this.turnManager.TurnDuration=20f; 
             currentTime = (int)this.turnManager.TurnDuration;
         }
-        if( ManageLevel_C.level == "Omission" )
+        if( ManageLevel_C.level == "omission" )
         {
             this.turnManager.TurnDuration=30f;
             currentTime = (int)this.turnManager.TurnDuration;
         }
-        if( ManageLevel_C.level == "Means" || ManageLevel_C.level == "Conversion")
+        if( ManageLevel_C.level == "means" || ManageLevel_C.level == "conversion" || ManageLevel_C.level == "integrate")
         {
             this.turnManager.TurnDuration=15f;
             currentTime = (int)this.turnManager.TurnDuration;
@@ -330,7 +332,7 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
         if (quesInfo != null && quesInfo.Length > 0)
         {
             int j=3;
-            if(ManageLevel_C.level == "Conversion" || ManageLevel_C.level == "Integrate")
+            if(ManageLevel_C.level == "conversion" || ManageLevel_C.level == "integrate")
             {
                 j=4;
             }
@@ -442,13 +444,13 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
         PhotonPlayer local = PhotonNetwork.player;
         int spendTime = DateDiff(this.localTime, TurnStartTime);
         int restTime = (int)this.turnManager.TurnDuration - spendTime;//剩餘時間
-        int _hintTS = xmlprocess.getRoundHintcount("hint_TS");//當回合使用提示時間暫停5秒
+        int _hintSA = xmlprocess.getRoundHintcount("hint_SA");//當回合使用顯示答案
         int _hintEO = xmlprocess.getRoundHintcount("hint_EO");//當回合使用提示排除一半選項
         string resultState = "";
         switch (this.result)
         {
             case ResultType.CorrectAns:
-                PhotonNetwork.player.AddScore((int)(restTime * 0.8 + local.GetScore() * 0.2 - (_hintTS * 1) - (_hintEO * 1.5) + (PhotonNetwork.room.PlayerCount * 0.25)));//剩餘時間*0.8+原本分數*0.2-使用提示+房間人數*0.5
+                PhotonNetwork.player.AddScore((int)(restTime * 0.8 + local.GetScore() * 0.15 - (_hintSA * 30) - (_hintEO * 1.5) + (PhotonNetwork.room.PlayerCount * 0.25)));//剩餘時間*0.8+原本分數*0.2-使用提示+房間人數*0.5
                 resultState = "correct";
                 break;
             case ResultType.None:
@@ -598,10 +600,10 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
     void InitialGameUI() {
         //初次進入進行遊戲畫面初始化
 
-        // btn_hintTS = this.GameStartUI.GetComponentsInChildren<Button>()[0];
-        btn_hintEO = this.GameStartUI.GetComponentsInChildren<Button>()[0];
+        btn_hintSA = this.GameStartUI.GetComponentsInChildren<Button>()[0];
+        btn_hintEO = this.GameStartUI.GetComponentsInChildren<Button>()[1];
         //提示按鈕監聽事件
-        // btn_hintTS.onClick.AddListener(TimeStop);
+        btn_hintSA.onClick.AddListener(ShowAnswer);
         btn_hintEO.onClick.AddListener(ExcludeOption);
 
         for (int i = 0; i < PhotonNetwork.room.PlayerCount; i++)
@@ -621,7 +623,7 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
             remote.text = player[i].NickName + "　" + player[i].GetScore().ToString("D2") + "分";
 
         }
-        xmlprocess.createCompeteRecord();
+        xmlprocess.createCompeteRecord(ManageLevel_C.level);
         xmlprocess.ScceneHistoryRecord("StartCompete", DateTime.Now.ToString("HH:mm:ss"));
     }
 
@@ -683,29 +685,48 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
         }
     }
 
-   
+   void ShowAnswer(){
+    ClickBtn.Play();
+
+     for(int i=2 ; i < 6 ; i++)
+        {
+            if( GetComponentsInChildren<Button>()[i].name != quesInfo[2] )
+            {
+                GetComponentsInChildren<Button>()[i].interactable = false;
+                Debug.Log("選項:"+GetComponentsInChildren<Button>()[i].name);
+            }
+        
+        }
+
+        c_hintSA_count = c_hintSA_count+1;
+        btn_hintSA.GetComponentsInChildren<Text>()[0].text = c_hintSA_count + "次";
+        xmlprocess.setRoundHintcount("hint_SA", c_hintSA_count);
+        if (c_hintSA_count == hintSA_count)
+        {
+            btn_hintSA.interactable = false;
+        }
+
+   }
 
     void ExcludeOption() {
         ClickBtn.Play();
 
         for(int i=0 ; i < 2 ; i++)
         {
-            int rand = UnityEngine.Random.Range(1, 5);
+            int rand = UnityEngine.Random.Range(2, 6);
             while( GetComponentsInChildren<Button>()[rand].name == quesInfo[2] || GetComponentsInChildren<Button>()[rand].interactable == false )
             {
-                rand = UnityEngine.Random.Range(1, 5);
+                rand = UnityEngine.Random.Range(2, 6);
                  // Debug.Log("迴圈選項名字: "+rand);
             }
             GetComponentsInChildren<Button>()[rand].interactable = false;
             // Debug.Log("選項名字: "+rand);
         }
-        
-        // cardObj.gameObject.SetActive(false);
 
         c_hintEO_count = c_hintEO_count+1;
         btn_hintEO.GetComponentsInChildren<Text>()[0].text = c_hintEO_count + "次";
         xmlprocess.setRoundHintcount("hint_EO", c_hintEO_count);
-        if (c_hintEO_count >= hintEO_count)
+        if (c_hintEO_count == hintEO_count)
         {
             btn_hintEO.interactable = false;
         }
@@ -713,7 +734,7 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
 
     void ShowQuestion() {
         // ClickBtn.Play();
-        if( ManageLevel_C.level == "Means" )
+        if( ManageLevel_C.level == "means" )
         {
             
             quesInfo[1] = quesInfo[1].Replace('/', ',');//英文題目
@@ -753,17 +774,22 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
             }
         }
         switch (sceneNum) {
-            case 0://practice
+            case 0://learning
                 PhotonNetwork.Disconnect();
                 xmlprocess.ScceneHistoryRecord("Learning", DateTime.Now.ToString("HH:mm:ss"));
                 SceneManager.LoadScene("Learning_Level");
                 break;
-            case 1://compete
+            case 1://practice
+                PhotonNetwork.Disconnect();
+                xmlprocess.ScceneHistoryRecord("Practice", DateTime.Now.ToString("HH:mm:ss"));
+                SceneManager.LoadScene("Practice_Level");
+                break;
+            case 2://compete
                 PhotonNetwork.Disconnect();
                 xmlprocess.ScceneHistoryRecord("Compete", DateTime.Now.ToString("HH:mm:ss"));
                 SceneManager.LoadScene("Compete_Level");
                 break;
-            case 2://exit
+            case 3://exit
                 PhotonNetwork.Disconnect();
                 SceneManager.LoadScene("Home");
                 break;
