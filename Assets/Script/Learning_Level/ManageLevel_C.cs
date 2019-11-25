@@ -24,17 +24,17 @@ public class ManageLevel_C : MonoBehaviour {
         ClickBtn = GetComponents<AudioSource>()[1];
         btn_exit = GetComponentsInChildren<Button>()[1];
         integrate_btn = GetComponentsInChildren<Button>()[2];
-        amplification_btn = GetComponentsInChildren<Button>()[3];
-        omission_btn = GetComponentsInChildren<Button>()[4];
-        means_btn = GetComponentsInChildren<Button>()[5];
-        conversion_btn = GetComponentsInChildren<Button>()[6];
+        // amplification_btn = GetComponentsInChildren<Button>()[3];
+        // omission_btn = GetComponentsInChildren<Button>()[4];
+        means_btn = GetComponentsInChildren<Button>()[3];
+        conversion_btn = GetComponentsInChildren<Button>()[4];
         // btn_compete = GetComponentsInChildren<Button>()[1];
         // btn_LPractice = GetComponentsInChildren<Button>()[2];
         // btn_LCompete = GetComponentsInChildren<Button>()[3];
 
         integrate_btn.onClick.AddListener(goIntegrateCompete);
-        amplification_btn.onClick.AddListener(goAmplificationCompete);
-        omission_btn.onClick.AddListener(goOmissionCompete);
+        // amplification_btn.onClick.AddListener(goAmplificationCompete);
+        // omission_btn.onClick.AddListener(goOmissionCompete);
         means_btn.onClick.AddListener(goMeansCompete);
         conversion_btn.onClick.AddListener(goConversionCompete);
         // btn_compete.onClick.AddListener(goCompete);
@@ -56,25 +56,25 @@ public class ManageLevel_C : MonoBehaviour {
 
     }
 
-    void goAmplificationCompete() {
-        ClickBtn.Play();
-        level = "Amplification";
-        //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
-        xmlprocess.ScceneHistoryRecord( "AmplificationCompete", DateTime.Now.ToString("HH:mm:ss"));
-        SceneManager.LoadScene("CompeteArea");
-    }
+    // void goAmplificationCompete() {
+    //     ClickBtn.Play();
+    //     level = "amplification";
+    //     //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
+    //     xmlprocess.ScceneHistoryRecord( "AmplificationCompete", DateTime.Now.ToString("HH:mm:ss"));
+    //     SceneManager.LoadScene("CompeteArea");
+    // }
 
-    void goOmissionCompete() {
-        ClickBtn.Play();
-        level = "Omission";
-        //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
-        xmlprocess.ScceneHistoryRecord( "OmissionCompete", DateTime.Now.ToString("HH:mm:ss"));
-        SceneManager.LoadScene("CompeteArea");
-    }
+    // void goOmissionCompete() {
+    //     ClickBtn.Play();
+    //     level = "omission";
+    //     //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
+    //     xmlprocess.ScceneHistoryRecord( "OmissionCompete", DateTime.Now.ToString("HH:mm:ss"));
+    //     SceneManager.LoadScene("CompeteArea");
+    // }
 
     void goMeansCompete() {
         ClickBtn.Play();
-        level = "Means";
+        level = "means";
         //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
         xmlprocess.ScceneHistoryRecord( "MeansCompete", DateTime.Now.ToString("HH:mm:ss"));
         SceneManager.LoadScene("CompeteArea");
@@ -82,7 +82,7 @@ public class ManageLevel_C : MonoBehaviour {
 
     void goConversionCompete() {
         ClickBtn.Play();
-        level = "Conversion";
+        level = "conversion";
         //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
         xmlprocess.ScceneHistoryRecord( "ConversionCompete", DateTime.Now.ToString("HH:mm:ss"));
         SceneManager.LoadScene("CompeteArea");
@@ -90,7 +90,7 @@ public class ManageLevel_C : MonoBehaviour {
 
     void goIntegrateCompete() {
         ClickBtn.Play();
-        level = "Integrate";
+        level = "integrate";
         //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
         xmlprocess.ScceneHistoryRecord( "IntegrateCompete", DateTime.Now.ToString("HH:mm:ss"));
         SceneManager.LoadScene("CompeteArea");

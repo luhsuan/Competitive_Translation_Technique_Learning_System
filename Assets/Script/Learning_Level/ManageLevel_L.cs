@@ -22,16 +22,16 @@ public class ManageLevel_L : MonoBehaviour {
         xmlprocess = new Xmlprocess();
         ClickBtn = GetComponents<AudioSource>()[1];
         btn_exit = GetComponentsInChildren<Button>()[1];
-        amplification_btn = GetComponentsInChildren<Button>()[2];
-        omission_btn = GetComponentsInChildren<Button>()[3];
-        means_btn = GetComponentsInChildren<Button>()[4];
-        word_conversion_btn = GetComponentsInChildren<Button>()[5];
+        // amplification_btn = GetComponentsInChildren<Button>()[2];
+        // omission_btn = GetComponentsInChildren<Button>()[3];
+        means_btn = GetComponentsInChildren<Button>()[2];
+        word_conversion_btn = GetComponentsInChildren<Button>()[3];
         // btn_compete = GetComponentsInChildren<Button>()[1];
         // btn_LPractice = GetComponentsInChildren<Button>()[2];
         // btn_LCompete = GetComponentsInChildren<Button>()[3];
 
-        amplification_btn.onClick.AddListener(goAmplificationLearning);
-        omission_btn.onClick.AddListener(goOmissionLearning);
+        // amplification_btn.onClick.AddListener(goAmplificationLearning);
+        // omission_btn.onClick.AddListener(goOmissionLearning);
         means_btn.onClick.AddListener(goMeansLearning);
         word_conversion_btn.onClick.AddListener(goWordConversionLearning);
         // btn_compete.onClick.AddListener(goCompete);
@@ -53,19 +53,19 @@ public class ManageLevel_L : MonoBehaviour {
 
     }
 
-    void goAmplificationLearning() {
-        ClickBtn.Play();
-        //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
-        xmlprocess.ScceneHistoryRecord( "Learning", DateTime.Now.ToString("HH:mm:ss"));
-        SceneManager.LoadScene("LearningAmplification");
-    }
+    // void goAmplificationLearning() {
+    //     ClickBtn.Play();
+    //     //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
+    //     xmlprocess.ScceneHistoryRecord( "Learning", DateTime.Now.ToString("HH:mm:ss"));
+    //     SceneManager.LoadScene("LearningAmplification");
+    // }
 
-    void goOmissionLearning() {
-        ClickBtn.Play();
-        //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
-        xmlprocess.ScceneHistoryRecord( "Learning", DateTime.Now.ToString("HH:mm:ss"));
-        SceneManager.LoadScene("LearningOmission");
-    }
+    // void goOmissionLearning() {
+    //     ClickBtn.Play();
+    //     //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
+    //     xmlprocess.ScceneHistoryRecord( "Learning", DateTime.Now.ToString("HH:mm:ss"));
+    //     SceneManager.LoadScene("LearningOmission");
+    // }
 
     void goMeansLearning() {
         ClickBtn.Play();
