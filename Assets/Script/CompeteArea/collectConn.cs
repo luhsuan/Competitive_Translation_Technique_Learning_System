@@ -93,23 +93,23 @@ public class collectConn : PunBehaviour
     {
         string php_name = "";
         Debug.Log("關卡:"+ManageLevel_C.level);
-        if( ManageLevel_C.level == "Amplification" )
+        if( ManageLevel_C.level == "amplification" )
         {
             php_name = "AmplificationQuest.php";
         }
-        if( ManageLevel_C.level == "Omission" )
+        if( ManageLevel_C.level == "omission" )
         {
             php_name = "OmissionQuest.php";
         }
-        if( ManageLevel_C.level == "Means" )
+        if( ManageLevel_C.level == "means" )
         {
             php_name = "MeansQuest.php";
         }
-        if( ManageLevel_C.level == "Conversion" )
+        if( ManageLevel_C.level == "conversion" )
         {
             php_name = "ConversionQuest.php";
         }
-        if( ManageLevel_C.level == "Integrate" )
+        if( ManageLevel_C.level == "integrate" )
         {
             php_name = "IntegrateQuest.php";
         }
@@ -134,19 +134,19 @@ public class collectConn : PunBehaviour
     {
         string php_name = "";
         // Debug.Log("關卡:"+ManageLevel_C.level);
-        if( ManageLevel_C.level == "Amplification" )
+        if( ManageLevel_C.level == "amplification" )
         {
             php_name = "getAmplificationOption.php";
         }
-        if( ManageLevel_C.level == "Omission" )
+        if( ManageLevel_C.level == "omission" )
         {
             php_name = "getOmissionOption.php";
         }
-        if( ManageLevel_C.level == "Means" )
+        if( ManageLevel_C.level == "means" )
         {
             php_name = "getMeansOption.php";
         }
-        if( ManageLevel_C.level == "Conversion" )
+        if( ManageLevel_C.level == "conversion" )
         {
             php_name = "getConversionOption.php";
         }
