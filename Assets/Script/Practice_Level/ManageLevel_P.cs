@@ -25,22 +25,22 @@ public class ManageLevel_P : MonoBehaviour {
         xmlprocess = new Xmlprocess();
         ClickBtn = GetComponents<AudioSource>()[1];
         btn_exit = GetComponentsInChildren<Button>()[1];
-        amplification_easy_btn = GetComponentsInChildren<Button>()[2];
-        amplification_hard_btn = GetComponentsInChildren<Button>()[3];
-        omission_easy_btn = GetComponentsInChildren<Button>()[4];
-        omission_hard_btn = GetComponentsInChildren<Button>()[5];
-        means_easy_btn = GetComponentsInChildren<Button>()[6];
-        means_hard_btn = GetComponentsInChildren<Button>()[7];
-        word_conversion_easy_btn = GetComponentsInChildren<Button>()[8];
-        word_conversion_hard_btn = GetComponentsInChildren<Button>()[9];
+        // amplification_easy_btn = GetComponentsInChildren<Button>()[2];
+        // amplification_hard_btn = GetComponentsInChildren<Button>()[3];
+        // omission_easy_btn = GetComponentsInChildren<Button>()[4];
+        // omission_hard_btn = GetComponentsInChildren<Button>()[5];
+        means_easy_btn = GetComponentsInChildren<Button>()[2];
+        means_hard_btn = GetComponentsInChildren<Button>()[3];
+        word_conversion_easy_btn = GetComponentsInChildren<Button>()[4];
+        word_conversion_hard_btn = GetComponentsInChildren<Button>()[5];
         // btn_compete = GetComponentsInChildren<Button>()[1];
         // btn_LPractice = GetComponentsInChildren<Button>()[2];
         // btn_LCompete = GetComponentsInChildren<Button>()[3];
 
-        amplification_easy_btn.onClick.AddListener(goAmplificationPractice_easy);
-        amplification_hard_btn.onClick.AddListener(goAmplificationPractice_hard);
-        omission_easy_btn.onClick.AddListener(goOmissionPractice_easy);
-        omission_hard_btn.onClick.AddListener(goOmissionPractice_hard);
+        // amplification_easy_btn.onClick.AddListener(goAmplificationPractice_easy);
+        // amplification_hard_btn.onClick.AddListener(goAmplificationPractice_hard);
+        // omission_easy_btn.onClick.AddListener(goOmissionPractice_easy);
+        // omission_hard_btn.onClick.AddListener(goOmissionPractice_hard);
         means_easy_btn.onClick.AddListener(goMeansPractice_easy);
         means_hard_btn.onClick.AddListener(goMeansPractice_hard);
         word_conversion_easy_btn.onClick.AddListener(goWordConversionPractice_easy);
@@ -64,37 +64,37 @@ public class ManageLevel_P : MonoBehaviour {
 
     }
 
-    void goAmplificationPractice_easy() {
-        levelDifficulty = "easy";
-        ClickBtn.Play();
-        //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
-        xmlprocess.ScceneHistoryRecord( "Practice", DateTime.Now.ToString("HH:mm:ss"));
-        SceneManager.LoadScene("PracticeAmplification");
-    }
+    // void goAmplificationPractice_easy() {
+    //     levelDifficulty = "easy";
+    //     ClickBtn.Play();
+    //     //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
+    //     xmlprocess.ScceneHistoryRecord( "Practice", DateTime.Now.ToString("HH:mm:ss"));
+    //     SceneManager.LoadScene("PracticeAmplification");
+    // }
 
-    void goAmplificationPractice_hard() {
-        levelDifficulty = "hard";
-        ClickBtn.Play();
-        //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
-        xmlprocess.ScceneHistoryRecord( "Practice", DateTime.Now.ToString("HH:mm:ss"));
-        SceneManager.LoadScene("PracticeAmplification");
-    }
+    // void goAmplificationPractice_hard() {
+    //     levelDifficulty = "hard";
+    //     ClickBtn.Play();
+    //     //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
+    //     xmlprocess.ScceneHistoryRecord( "Practice", DateTime.Now.ToString("HH:mm:ss"));
+    //     SceneManager.LoadScene("PracticeAmplification");
+    // }
 
-    void goOmissionPractice_easy() {
-        levelDifficulty = "easy";
-        ClickBtn.Play();
-        //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
-        xmlprocess.ScceneHistoryRecord( "Practice", DateTime.Now.ToString("HH:mm:ss"));
-        SceneManager.LoadScene("PracticeOmission");
-    }
+    // void goOmissionPractice_easy() {
+    //     levelDifficulty = "easy";
+    //     ClickBtn.Play();
+    //     //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
+    //     xmlprocess.ScceneHistoryRecord( "Practice", DateTime.Now.ToString("HH:mm:ss"));
+    //     SceneManager.LoadScene("PracticeOmission");
+    // }
 
-     void goOmissionPractice_hard() {
-        levelDifficulty = "hard";
-        ClickBtn.Play();
-        //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
-        xmlprocess.ScceneHistoryRecord( "Practice", DateTime.Now.ToString("HH:mm:ss"));
-        SceneManager.LoadScene("PracticeOmission");
-    }
+    // void goOmissionPractice_hard() {
+    //     levelDifficulty = "hard";
+    //     ClickBtn.Play();
+    //     //xmlprocess.New_timeHistoryRecord(levelName + "_Practice", System.DateTime.Now.ToString("HH-mm-ss"));
+    //     xmlprocess.ScceneHistoryRecord( "Practice", DateTime.Now.ToString("HH:mm:ss"));
+    //     SceneManager.LoadScene("PracticeOmission");
+    // }
 
     void goMeansPractice_easy() {
         levelDifficulty = "easy";
