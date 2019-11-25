@@ -181,7 +181,7 @@ public class PracticeAmplificationView : MonoBehaviour {
 
         for (int i = 0; i < btn_option.Length; i++)
         {
-            btn_option[i] = GetComponentsInChildren<Button>()[i+1];
+            btn_option[i] = GetComponentsInChildren<Button>()[i];
         }
         c_original = btn_option[0].GetComponent<Image>().color;
         btn_option[0].onClick.AddListener(delegate () {StartCoroutine(compareAns(0,quesID)); });

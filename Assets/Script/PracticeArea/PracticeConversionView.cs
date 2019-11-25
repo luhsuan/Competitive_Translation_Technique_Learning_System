@@ -178,7 +178,7 @@ public class PracticeConversionView : MonoBehaviour {
 
         for (int i = 0; i < btn_option.Length; i++)
         {
-            btn_option[i] = GetComponentsInChildren<Button>()[i+1];
+            btn_option[i] = GetComponentsInChildren<Button>()[i];
         }
         c_original = btn_option[0].GetComponent<Image>().color;
         btn_option[0].onClick.AddListener(delegate () {StartCoroutine(compareAns(0,quesID)); });
@@ -503,6 +503,7 @@ public class PracticeConversionView : MonoBehaviour {
         // ############將練習記錄存入資料庫######################
         // gameObject.AddComponent<UpdateSQL>();//將成績紀錄於資料庫
         StartCoroutine(us.UpdatePractice_task("conversion",theme));
+        yield return new WaitForSeconds(1.5f);
 
         // ############從資料庫讀取練習排行榜######################
         if( ManageLevel_P.levelDifficulty == "easy")//依照練習主題與難意度下去全班排名
