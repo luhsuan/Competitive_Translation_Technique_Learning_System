@@ -83,6 +83,6 @@ public class Home : MonoBehaviour {
     void UploadData() {
         ClickBtn.Play();
         gameObject.AddComponent<UpdateSQL>();//呼叫更新資料路的函數
-        Application.Quit();
+        // Application.Quit();
     }
 }
