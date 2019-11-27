@@ -479,18 +479,21 @@ public class PracticeConversionView : MonoBehaviour {
         UI_ShowMes.GetComponentInChildren<Text>().text = "排名中...";
 
         // ############紀錄練習成績######################
-        string theme = "";
+        string theme_level = "";
+        string level_name = "";
         if( ManageLevel_P.levelDifficulty == "easy")//紀錄練習主題與難意度
         {
             pm.setPracticeInfo("conversion","0");
-            theme = "0";
+            theme_level = "0";
+            level_name = "簡易";
         }
         if( ManageLevel_P.levelDifficulty == "hard")//紀錄練習主題與難意度
         {
             pm.setPracticeInfo("conversion","1");
-            theme = "1";
+            theme_level = "1";
+            level_name = "困難";
         }
-        achievementState[0] = pm.setPracticeCount("practice_conversion_"+theme);//更新單字練習次數
+        achievementState[0] = pm.setPracticeCount("practice_conversion_"+theme_level);//更新單字練習次數
 
         string[] s_state = pm.setPracticeScore(p_score);//紀錄此次單字練習成績
         if (s_state!=null) {
@@ -502,7 +505,7 @@ public class PracticeConversionView : MonoBehaviour {
         
         // ############將練習記錄存入資料庫######################
         // gameObject.AddComponent<UpdateSQL>();//將成績紀錄於資料庫
-        StartCoroutine(us.UpdatePractice_task("conversion",theme));
+        StartCoroutine(us.UpdatePractice_task("conversion",theme_level));
         yield return new WaitForSeconds(1.5f);
 
         // ############從資料庫讀取練習排行榜######################
@@ -517,20 +520,20 @@ public class PracticeConversionView : MonoBehaviour {
         yield return new WaitForSeconds(1.5f);
 
 
-        // 顯示玩家本身最高得分
+        // 顯示玩家本身當前主題難易度下最高得分
         xmlprocess = new Xmlprocess ();
         userInfo = xmlprocess.getUserInfo();
-        UI_ShowPlayerRank.GetComponentInChildren<Text>().text =  userInfo[1] + " " +us.user_rank.ToString() + "\n";
+        UI_ShowPlayerRank.GetComponentInChildren<Text>().text =  userInfo[1] + "當前最高分 : " +us.user_highscore.ToString() + "\n";
 
         // 顯示全班前十名玩家
         int UserNum = 0; //計算前10名的玩家人數
-        string rank_content="排名 玩家  最高分\n";
+        string rank_content="詞性轉換 "+level_name+"難度下\n排名 玩家  最高分\n";
         UserNum = pm.UsernameDic.Count;
 
         for (int i=0 ; i < UserNum ; i++ )
         {
             int a = i+1;
-            rank_content += a.ToString() + " " + pm.UsernameDic[i] +" "+ pm.HighscoreDic[i] + "\n";//獲得全部使用者分數排名
+            rank_content += a.ToString() + ". " + pm.UsernameDic[i] +" "+ pm.HighscoreDic[i] + "\n";//獲得全部使用者分數排名
             // Debug.Log("rank msg" + rank_content);
      
         }
