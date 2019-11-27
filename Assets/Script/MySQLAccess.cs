@@ -123,7 +123,8 @@ public class MySQLAccess
     }
 
     /// <summary>
-    /// 查詢 SELECT MAX(highscore) FROM translate.learning_task WHERE user_id='123';
+    /// SELECT MAX(highscore) FROM translation.practice_task where  user_id = '123' and 
+    // practice_theme = 'means' and practice_level =1;
     /// </summary>
     /// <param name="tableName">表名</param>
     /// <param name="items">需要查詢的列</param>
@@ -131,14 +132,17 @@ public class MySQLAccess
     /// <param name="operation">條件操作符</param>
     /// <param name="value">條件的值</param>
     /// <returns></returns>
-    public DataSet Select(string tableName, string items, string whereColName, string operation, string selectvalue)
+    public DataSet Select(string tableName, string items, string whereColName, string operation, string selectvalue,
+     string whereColName2, string operation2, string selectvalue2, string whereColName3, string operation3, string selectvalue3)
     {
         // if (whereColName.Length != operation.Length || operation.Length != value.Length)
         // {
         //     throw new Exception("輸入不正確：" + "col.Length != operation.Length != values.Length");
         // }
         string query = "SELECT " + items;
-        query += "  FROM  " + tableName + "  WHERE " + " " + whereColName + operation + " '" + selectvalue + "'";
+        query += "  FROM  " + tableName + "  WHERE " + " " + whereColName + operation + " '" + selectvalue + "' and "
+        + whereColName2 + operation2 + " '" + selectvalue2 +  "' and "
+        + whereColName3 + operation3 + " '" + selectvalue3 +  "' ;" ;
        
         return QuerySet(query);
     }

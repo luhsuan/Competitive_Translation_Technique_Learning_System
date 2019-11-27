@@ -25,7 +25,7 @@ public class UpdateSQL : MonoBehaviour {
     static string id = "leelu";
     static string pwd = "lu293533";
     static string database = "translation";
-    public string user_rank = "";
+    public string user_highscore = "";
 
     string userID = "";
 
@@ -46,10 +46,10 @@ public class UpdateSQL : MonoBehaviour {
         XmlAttribute attribute = element.GetAttributeNode("ID");
         userID = attribute.Value;
 
-        /*查詢玩家練習排名*/
-        DataSet ds = new DataSet();
-        ds = mySQLAccess.Select("translation.practice_task", "MAX(highscore)", "user_id", "=", userID.ToString());
-        user_rank = ds.Tables[0].Rows[0][0].ToString();
+        // /*查詢玩家練習排名*/
+        // DataSet ds = new DataSet();
+        // ds = mySQLAccess.Select("translation.practice_task", "MAX(highscore)", "user_id", "=", userID.ToString());
+        // user_highscore = ds.Tables[0].Rows[0][0].ToString();
 
         /*等級*/
         string userlevel = element.GetAttributeNode("level").Value;
@@ -294,7 +294,7 @@ public class UpdateSQL : MonoBehaviour {
 
             
         }
-        // Application.Quit();
+        Application.Quit();
     }
 
      public IEnumerator UpdatePractice_task(string theme,string level)
@@ -309,10 +309,6 @@ public class UpdateSQL : MonoBehaviour {
         XmlAttribute attribute = element.GetAttributeNode("ID");
         userID = attribute.Value;
 
-        /*查詢玩家練習排名*/
-        DataSet ds = new DataSet();
-        ds = mySQLAccess.Select("translation.practice_task", "MAX(highscore)", "user_id", "=", userID.ToString());
-        user_rank = ds.Tables[0].Rows[0][0].ToString();
 
         string[] practice_task_col = new string[9];
         practice_task_col[0] = "user_id";
@@ -339,6 +335,11 @@ public class UpdateSQL : MonoBehaviour {
         practice_task[8] = DateTime.Now.ToString();
         mySQLAccess.InsertInto("practice_task", practice_task_col,practice_task);
 
+        /*查詢玩家練習排名*/
+        DataSet ds = new DataSet();
+        ds = mySQLAccess.Select("translation.practice_task", "MAX(highscore)", "user_id", "=", userID.ToString(),
+            "practice_theme","=",theme,"practice_level","=",level);
+        user_highscore = ds.Tables[0].Rows[0][0].ToString();
 
     }
 
