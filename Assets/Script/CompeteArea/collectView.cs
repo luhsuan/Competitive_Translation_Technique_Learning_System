@@ -629,37 +629,6 @@ public class collectView : PunBehaviour, IPunTurnManagerCallbacks
 
     void gameover(int sceneNum,GameObject [] PlayerLists) {
         ClickBtn.Play();
-        //ResultUIView.SetActive(false);
-        /*---顯示獲得獎章與稱號---*/
-        // for (int i = 0; i < achievementState.Length; i++) {
-        //     if (achievementState[i] != null) {
-        //         //ShowMesUI.SetActive(true);
-        //         ShowMesUI.GetComponentInChildren<Text>().text = achievementState[i];
-        //         switch (i) {
-        //             case 0:
-        //                 Achievement.badgeName[5] = "快!狠!準!";
-        //                 break;
-        //             case 1:
-        //                 Achievement.badgeName[6] = "熱愛對戰";
-        //                 break;
-        //             case 2:
-        //                 Achievement.badgeName[7] = "答對真的不難";
-        //                 break;
-        //             case 3:
-        //                 Achievement.badgeName[8] = "屢戰屢勝";
-        //                 break;
-        //             case 4:
-        //                 Achievement.badgeName[9] = "無法阻止得分";
-        //                 break;
-        //             case 5:
-        //                 Achievement.badgeName[10] = "越戰越勇";
-        //                 break;
-        //             case 6:
-        //                 Achievement.badgeName[11] = "榜上有名";
-        // //                 break;
-        //         }
-            // }
-        // }
         ExitGame(sceneNum,PlayerLists);
     }
 
