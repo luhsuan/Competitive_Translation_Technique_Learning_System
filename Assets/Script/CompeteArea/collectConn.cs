@@ -12,7 +12,7 @@ public class collectConn : PunBehaviour
     public GameObject obj_gamestart, UI_guide;
     Button btn_start,btn_guide,btn_backguide;
     //Text id;
-    InputField username;
+    string username;
     AudioSource ClickBtn;
 
     public static string[] ques, option;
@@ -29,7 +29,7 @@ public class collectConn : PunBehaviour
     void Start () {
         ClickBtn = GetComponents<AudioSource>()[1];
         //id = obj_gamestart.GetComponentsInChildren<Text>()[0];
-        username = obj_gamestart.GetComponentsInChildren<InputField>()[0];
+        // username = obj_gamestart.GetComponentsInChildren<InputField>()[0];
         btn_start = obj_gamestart.GetComponentsInChildren<Button>()[0];
         btn_guide = obj_gamestart.GetComponentsInChildren<Button>()[2];
         btn_backguide = obj_gamestart.GetComponentsInChildren<Button>()[3];
@@ -40,7 +40,7 @@ public class collectConn : PunBehaviour
 
         xmlprocess = new Xmlprocess();
         //id.text = xmlprocess.getUserInfo()[0];
-        username.text = xmlprocess.getUserInfo()[1];
+        username = xmlprocess.getUserInfo()[1];
         UIManager.Instance.CloseAllPanel();
     }
 
@@ -58,10 +58,10 @@ public class collectConn : PunBehaviour
             PhotonNetwork.AuthValues = new AuthenticationValues();
         }
         PhotonNetwork.AuthValues.UserId = xmlprocess.getUserInfo()[0];//學號
-        Debug.Log("playerName: " + username.text + "AuthValues userID: " + PhotonNetwork.AuthValues.UserId);
-        PhotonNetwork.playerName = username.text;
+        Debug.Log("playerName: " + username + "AuthValues userID: " + PhotonNetwork.AuthValues.UserId);
+        PhotonNetwork.playerName = username;
 
-        PlayerPrefs.SetString(NickNamePlayerPrefsKey, username.text);
+        PlayerPrefs.SetString(NickNamePlayerPrefsKey, username);
         PhotonNetwork.ConnectUsingSettings("0.5");
         PhotonHandler.StopFallbackSendAckThread();
         StartCoroutine(getQuestion());
