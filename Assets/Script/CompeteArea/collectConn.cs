@@ -72,6 +72,7 @@ public class collectConn : PunBehaviour
     {
         ClickBtn.Play();
         UI_guide.SetActive(true);
+        Debug.Log("showGuide");
 
     }
 
@@ -79,6 +80,7 @@ public class collectConn : PunBehaviour
     {
         ClickBtn.Play();
         UI_guide.SetActive(false);
+        Debug.Log("back");
     }
     /*
     void createUser() {
@@ -112,6 +114,14 @@ public class collectConn : PunBehaviour
         if( ManageLevel_C.level == "integrate" )
         {
             php_name = "IntegrateQuest.php";
+        }
+        if( ManageLevel_C.level == "positive" )
+        {
+            php_name = "PosQuest.php";
+        }
+        if( ManageLevel_C.level == "domestic" )
+        {
+            php_name = "DomesticateQuest_compete.php";
         }
 
         WWWForm phpform = new WWWForm();
@@ -149,6 +159,10 @@ public class collectConn : PunBehaviour
         if( ManageLevel_C.level == "conversion" )
         {
             php_name = "getConversionOption.php";
+        }
+        if( ManageLevel_C.level == "domestic" )
+        {
+            php_name = "getDomesticateOption.php";
         }
    
 
