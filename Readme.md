@@ -1,4 +1,7 @@
 # Digital Game-based Translation Techniques Learning Platform Setup 
+
+The multiplayer online competitive game learning system was developed using Unity and C# to connect to a MySQL database. Its purpose is to help students learn multiple translation techniques, regardless of their performance goals.
+
 1. Install XAMPP: https://www.apachefriends.org/index.html 
 After installation, open the XAMPP control panel and start both Apache and MySQL.
 ![](https://i.imgur.com/8NNKm93.png)
